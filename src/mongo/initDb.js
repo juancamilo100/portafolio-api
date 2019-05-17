@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
+const databaseManager = require('./databaseManager');
 
 const databaseInit = () => {
-    mongoose.connect('mongodb://localhost:27017/', {
-        useNewUrlParser: true,
-        dbName: "portafolio",
-        connectTimeoutMS: 5000
-    });
+    const mongoDatabase = new databaseManager(
+        mongoose,
+        'mongodb://localhost:27017/',
+        'portafolio'
+    );
     
-    mongoose.connection.on('connected', function () {  
-      console.log('Connection successful to MongoDB');
-    }); 
-}  
+    mongoDatabase.connect();
+}
 
 module.exports = { databaseInit };
-
