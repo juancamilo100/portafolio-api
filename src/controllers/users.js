@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const createError = require('http-errors');
 const mongoose = require('mongoose');
-const { Portfolio } = require('../models/portfolio');
+const createError = require('http-errors');
+const { User } = require('../models/user');
 
 router.get('/', async (req, res, next) => {
     try {
-        const allPortfolios = await Portfolio.find();
-        res.send(allPortfolios);
+        const allUsers = await User.find();
+        res.send(allUsers);
     } catch (error) {
         next(createError(500));
     }
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const portfolio = await Portfolio.find({_id: req.params.id});
+        const user = await User.find({_id: req.params.id});
         res.send(portfolio);
     } catch (error) {
         next(createError(500));
@@ -23,24 +23,24 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    if(!req.body.tickers) {
+    if(!req.body.firstname || !req.body.lastname) {
         next(createError(500));
         return;
     }
 
     try {
-        const newPortfolio = new Portfolio({
+        const newUser = new User({
             _id: mongoose.Types.ObjectId(),
-            name: req.body.name,
-            description: req.body.description,
-            tickers: req.body.tickers
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            portfolios: []
         });
-        const createdPortfolio = await newPortfolio.save();
-        res.send(createdPortfolio);
+
+        const createdUser = await newUser.save();
+        res.send(createdUser);
     } catch (error) {
         next(createError(500));
     }
 });
 
 module.exports = router;
-

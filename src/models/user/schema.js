@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const schema = new Schema({
+    _id: {
+        type: ObjectId,
+        required: [true]
+    },
     firstname: {
         type: String,
         required: [true],
@@ -12,6 +16,6 @@ const schema = new Schema({
         required: [true],
     },
     portfolios: [{type: ObjectId, ref: 'Portfolio'}]
-});
+}, { _id: false });
 
 module.exports = { schema };
