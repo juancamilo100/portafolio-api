@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+
 const { databaseInit } = require('./src/mongo/initDb');
 const errorHandler = require('./src/middleware/errorHandler');
 
