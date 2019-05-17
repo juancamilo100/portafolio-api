@@ -5,7 +5,7 @@ const logger = require('morgan');
 const { databaseInit } = require('./src/mongo/initDb');
 const errorHandler = require('./src/middleware/errorHandler');
 
-const usersRouter = require('./routes/users');
+const usersRouter = require('./src/controllers/users');
 const portfoliosRouter = require('./src/controllers/portfolios');
 
 const app = express();
