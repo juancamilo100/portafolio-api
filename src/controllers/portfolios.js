@@ -10,14 +10,29 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
         next(createError(500));
     }
-    // res.send("Dummy bro!");
-    
+});
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const portfolio = await Portfolio.find({_id: req.params.id});
+        res.send(portfolio);
+    } catch (error) {
+        next(createError(500));
+    }
 });
 
 router.post('/', async (req, res, next) => {
-    // console.log(req.body.porfolio);
+    if(!req.body.tickers) {
+        next(createError(500));
+        return;
+    }
+
     try {
-        const newPortfolio = new Portfolio(req.body.porfolio);
+        const newPortfolio = new Portfolio({
+            name: req.body.name,
+            description: req.body.description,
+            tickers: req.body.tickers
+        });
         const createdPortfolio = await newPortfolio.save();
         res.send(createdPortfolio);
     } catch (error) {
