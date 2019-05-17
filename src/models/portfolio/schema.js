@@ -13,7 +13,7 @@ const schema = new Schema({
     description: {
         type: String,
     },
-    elements: {
+    tickers: {
         type: Array      
     },
     user: {
@@ -21,6 +21,9 @@ const schema = new Schema({
         ref: 'User',
         required: true
     }
+},
+{ 
+    collection: 'portfolios' 
 });
 
 module.exports = { schema };
