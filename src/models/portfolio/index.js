@@ -1,3 +1,3 @@
-const Portfolio = require("./model");
+const { Portfolio } = require("./model");
 
 module.exports = { Portfolio }; 

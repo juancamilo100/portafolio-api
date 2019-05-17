@@ -10,10 +10,12 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
         next(createError(500));
     }
+    // res.send("Dummy bro!");
+    
 });
 
 router.post('/', async (req, res, next) => {
-    console.log(req.body.porfolio);
+    // console.log(req.body.porfolio);
     try {
         const newPortfolio = new Portfolio(req.body.porfolio);
         const createdPortfolio = await newPortfolio.save();
@@ -21,7 +23,6 @@ router.post('/', async (req, res, next) => {
     } catch (error) {
         next(createError(500));
     }
-
 });
 
 module.exports = router;
