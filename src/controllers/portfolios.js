@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
+const mongoose = require('mongoose');
 const { Portfolio } = require('../models/portfolio');
 
 router.get('/', async (req, res, next) => {
@@ -29,6 +30,7 @@ router.post('/', async (req, res, next) => {
 
     try {
         const newPortfolio = new Portfolio({
+            _id: mongoose.Types.ObjectId(),
             name: req.body.name,
             description: req.body.description,
             tickers: req.body.tickers
