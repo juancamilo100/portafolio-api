@@ -33,7 +33,8 @@ router.post('/', async (req, res, next) => {
             _id: mongoose.Types.ObjectId(),
             name: req.body.name,
             description: req.body.description,
-            tickers: req.body.tickers
+            tickers: req.body.tickers,
+            user: req.body.user
         });
         const createdPortfolio = await newPortfolio.save();
         res.send(createdPortfolio);
