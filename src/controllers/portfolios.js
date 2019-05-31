@@ -40,12 +40,11 @@ router.post('/', async (req, res, next) => {
 
     try {
         const newPortfolio = new Portfolio({
-            _id: mongoose.Types.ObjectId(),
             name: req.body.name,
-            tickers: req.body.tickers,
+            funds: req.body.funds,
             user: req.body.user
         });
-        
+
         const createdPortfolio = await newPortfolio.save();
         res.send(createdPortfolio);
     } catch (error) {
