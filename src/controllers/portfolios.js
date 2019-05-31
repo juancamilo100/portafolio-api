@@ -28,13 +28,23 @@ router.post('/', async (req, res, next) => {
         return;
     }
 
+    let portafolioTotal = 0;
+    req.body.tickers.forEach(ticker => {
+        portafolioTotal += Number.parseInt(ticker.portfolioPercentage); 
+    });
+
+    if(portafolioTotal != 100) {
+        next(createError(500));
+        return;
+    }
+
     try {
         const newPortfolio = new Portfolio({
-            _id: mongoose.Types.ObjectId(),
             name: req.body.name,
-            description: req.body.description,
-            tickers: req.body.tickers
+            funds: req.body.funds,
+            user: req.body.user
         });
+
         const createdPortfolio = await newPortfolio.save();
         res.send(createdPortfolio);
     } catch (error) {
