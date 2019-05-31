@@ -16,15 +16,6 @@ class databaseManager {
             console.log(`Connection successful to ${this._databaseName} at ${this._connectionString}`);
         }); 
     }
-
-    watchCollection(collection) {
-        const collection = db.collection('inventory');
-        const changeStream = collection.watch();
-        changeStream.on('change', next => {
-            // process next document
-        });
-    }
-
 }
 
 module.exports = databaseManager;
