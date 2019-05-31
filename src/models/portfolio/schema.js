@@ -11,11 +11,13 @@ const schema = new Schema({
         type: String,
         required: [true],
     },
-    description: {
-        type: String,
-    },
     tickers: {
-        type: Array      
+        type: [
+            {
+                fund: String,
+                portfolioPercentage: String
+            }
+        ]
     },
     user: {
         type: ObjectId, 

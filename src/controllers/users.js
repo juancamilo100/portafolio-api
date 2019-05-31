@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const user = await User.find({_id: req.params.id});
-        res.send(portfolio);
+        res.send(user);
     } catch (error) {
         next(createError(500));
     }
