@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const mongoose = require('mongoose');
 const { Portfolio } = require('../models/portfolio');
 
 router.get('/', async (req, res, next) => {
+    const props = Object.keys(Portfolio.schema.paths);
     try {
         const allPortfolios = await Portfolio.find();
         res.send(allPortfolios);
@@ -23,14 +23,14 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    if(!req.body.tickers) {
+    if(!req.body.funds) {
         next(createError(500));
         return;
     }
 
     let portafolioTotal = 0;
-    req.body.tickers.forEach(ticker => {
-        portafolioTotal += Number.parseInt(ticker.portfolioPercentage); 
+    req.body.funds.forEach(fund => {
+        portafolioTotal += Number.parseInt(fund.portfolioPercentage); 
     });
 
     if(portafolioTotal != 100) {
@@ -47,6 +47,20 @@ router.post('/', async (req, res, next) => {
 
         const createdPortfolio = await newPortfolio.save();
         res.send(createdPortfolio);
+    } catch (error) {
+        next(createError(500));
+    }
+});
+
+router.patch('/:id', async (req, res, next) => {
+    try {
+        const updatedPortfolio = await Portfolio.findOneAndUpdate(
+            { _id: req.params.id }, 
+            req.body.updatedFields,
+            { new: true }
+        );
+
+        res.send(updatedPortfolio);
     } catch (error) {
         next(createError(500));
     }
