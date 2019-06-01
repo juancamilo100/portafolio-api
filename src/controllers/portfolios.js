@@ -4,7 +4,6 @@ const createError = require('http-errors');
 const { Portfolio } = require('../models/portfolio');
 
 router.get('/', async (req, res, next) => {
-    const props = Object.keys(Portfolio.schema.paths);
     try {
         const allPortfolios = await Portfolio.find();
         res.send(allPortfolios);
