@@ -1,20 +1,20 @@
-const { Portfolio } = require('./portfolio');
-const { User } = require('./user');
+const { User } = require('../../../models/user');
+const { Portfolio } = require('../../../models/portfolio');
 
-const syncNewPortafolioToUser = async (data, operation) => {
+const syncPortafolioToUser = async (data, operation) => {
     try {
         const user = await User.findById(data.fullDocument.user);
         const newPortfolios = user.portfolios.slice(0);
 
         switch (operation) {
             case "insert":
-                newPortfolios.push(data.fullDocument._id);
+                newPortfolios.push(data.documentKey._id);
                 user.portfolios = newPortfolios;
                 break;
             
             case "delete":
                 user.portfolios = newPortfolios.filter(
-                        (portfolioId) => !portfolioId === data.fullDocument._id
+                        (portfolioId) => !portfolioId === data.documentKey._id
                     );
                 break;                
         
@@ -28,15 +28,13 @@ const syncNewPortafolioToUser = async (data, operation) => {
     }
 }
 
-const initDatabaseStreams = () => {
+const portfolioStreamsInit = () => {
     Portfolio.watch()
-        .on('change', async (data) => { 
-            if (['insert', 'delete'].indexOf(data.operationType) > -1) {
-                syncNewPortafolioToUser(data, data.operationType);
-            }
-        });
+    .on('change', async (data) => { 
+        if (['insert', 'delete'].indexOf(data.operationType) > -1) {
+            syncPortafolioToUser(data, data.operationType);
+        }
+    });
 }
 
-module.exports = initDatabaseStreams; 
-
-
+module.exports = portfolioStreamsInit;
