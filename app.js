@@ -3,7 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { databaseInit } = require('./src/mongo/initDb');
-const initDatabaseStreams = require('./src/models/streams');
+const initDatabaseStreams = require('./src/mongo/streams');
 const errorHandler = require('./src/middleware/errorHandler');
 
 const usersRouter = require('./src/controllers/users');

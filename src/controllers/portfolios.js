@@ -65,5 +65,14 @@ router.patch('/:id', async (req, res, next) => {
     }
 });
 
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const deletedPortfolio = await Portfolio.findByIdAndRemove(req.params.id);
+        res.send(deletedPortfolio);
+    } catch (error) {
+        next(createError(500));
+    }
+})
+
 module.exports = router;
 
