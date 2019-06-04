@@ -29,12 +29,12 @@ const syncPortafolioToUser = async (data, operation) => {
 }
 
 const portfolioStreamsInit = () => {
-    Portfolio.watch()
-    .on('change', async (data) => { 
-        if (['insert', 'delete'].indexOf(data.operationType) > -1) {
-            syncPortafolioToUser(data, data.operationType);
-        }
-    });
+    // Portfolio.watch()
+    // .on('change', async (data) => { 
+    //     if (['insert', 'delete'].indexOf(data.operationType) > -1) {
+    //         syncPortafolioToUser(data, data.operationType);
+    //     }
+    // });
 }
 
 module.exports = portfolioStreamsInit;

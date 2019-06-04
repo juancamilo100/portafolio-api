@@ -7,17 +7,17 @@ let User = require('../src/models/user/index');
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let server = require('../src/controllers/users');
+let server = require('../app.js');
 let should = chai.should();
 
 chai.use(chaiHttp);
 //Our parent block
 describe('users', () => {
-    beforeEach((done) => { //Before each test we empty the database
-        User.remove({}, (err) => { 
-           done();           
-        });        
-    });
+    // beforeEach((done) => { //Before each test we empty the database
+    //     User.remove({}, (err) => { 
+    //        done();           
+    //     });        
+    // });
 /*
   * Test the /GET route
   */
@@ -28,7 +28,7 @@ describe('users', () => {
             .end((err, res) => {
                   res.should.have.status(200);
                   res.body.should.be.a('array');
-                  res.body.length.should.be.eql(0);
+                  res.body.length.should.be.eql(2);
               done();
             });
       });
