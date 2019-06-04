@@ -6,7 +6,7 @@ const { User } = require('../models/user');
 
 router.get('/', async (req, res, next) => {
     try {
-        const allUsers = await User.find();
+        const allUsers = await User.find().populate('portfolios');
         res.send(allUsers);
     } catch (error) {
         next(createError(500));
@@ -15,8 +15,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const user = await User.find({_id: req.params.id});
-        res.send(portfolio);
+        const user = await User.find({_id: req.params.id}).populate('portfolios');
+        res.send(user);
     } catch (error) {
         next(createError(500));
     }
