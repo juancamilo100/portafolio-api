@@ -4,16 +4,21 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "test": "jasmine" 
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jasmine": "^3.4.0",
+    "mocha": "^6.1.4",
     "mongoose": "^5.5.9",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "request": "^2.88.0",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.0"
