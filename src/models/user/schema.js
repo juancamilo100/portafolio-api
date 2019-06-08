@@ -3,19 +3,19 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const schema = new Schema({
-    _id: {
-        type: ObjectId,
-        required: [true]
-    },
-    firstname: {
+    username: {
         type: String,
         required: [true],
     },
-    lastname: {
+    email: {
+        type: String,
+        required: [true],
+    },
+    password: {
         type: String,
         required: [true],
     },
     portfolios: [{type: ObjectId, ref: 'Portfolio'}]
-}, { _id: false });
+});
 
 module.exports = { schema };

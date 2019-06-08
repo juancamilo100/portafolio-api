@@ -5,6 +5,7 @@ const logger = require('morgan');
 const { databaseInit } = require('./src/mongo/initDb');
 const initDatabaseStreams = require('./src/mongo/streams');
 const errorHandler = require('./src/middleware/errorHandler');
+const compression = require('compression');
 
 const usersRouter = require('./src/controllers/users');
 const portfoliosRouter = require('./src/controllers/portfolios');
@@ -18,6 +19,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 
 app.use('/users', usersRouter);
 app.use('/portfolios', portfoliosRouter)
