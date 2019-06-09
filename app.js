@@ -6,6 +6,7 @@ const { databaseInit } = require('./src/mongo/initDb');
 const initDatabaseStreams = require('./src/mongo/streams');
 const errorHandler = require('./src/middleware/errorHandler');
 const compression = require('compression');
+const { authenticateUser } = require('./src/middleware/auth');
 
 const usersRouter = require('./src/controllers/users');
 const portfoliosRouter = require('./src/controllers/portfolios');
@@ -22,7 +23,7 @@ app.use(cookieParser());
 app.use(compression());
 
 app.use('/users', usersRouter);
-app.use('/portfolios', portfoliosRouter)
+app.use('/portfolios', authenticateUser, portfoliosRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
