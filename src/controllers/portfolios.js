@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const { Portfolio } = require('../models/portfolio');
+const { authorizeUser } = require('../middleware/portfolioAuth');
 
+// Need to add authorization to this route.  It should only be available for admin users
 router.get('/', async (req, res, next) => {
     try {
         const allPortfolios = await Portfolio.find();
@@ -12,7 +14,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', authorizeUser, async (req, res, next) => {
     try {
         const portfolio = await Portfolio.find({_id: req.params.id});
         res.send(portfolio);
@@ -41,7 +43,7 @@ router.post('/', async (req, res, next) => {
         const newPortfolio = new Portfolio({
             name: req.body.name,
             funds: req.body.funds,
-            user: req.body.user
+            user: req.userId
         });
 
         const createdPortfolio = await newPortfolio.save();
@@ -51,7 +53,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id', authorizeUser, async (req, res, next) => {
     try {
         const updatedPortfolio = await Portfolio.findOneAndUpdate(
             { _id: req.params.id }, 
@@ -65,7 +67,7 @@ router.patch('/:id', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authorizeUser, async (req, res, next) => {
     try {
         const deletedPortfolio = await Portfolio.findByIdAndRemove(req.params.id);
         res.send(deletedPortfolio);
