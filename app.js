@@ -8,8 +8,8 @@ const initDatabaseStreams = require('./src/mongo/streams');
 const { databaseInit } = require('./src/mongo/initDb');
 const { authenticateUser } = require('./src/middleware/auth');
 
-const authRouter = require('./src/controllers/auth');
-const usersRouter = require('./src/controllers/users');
+const authRouter = require('./src/routes/auth');
+const usersRouter = require('./src/routes/users');
 const portfoliosRouter = require('./src/routes/portfolios');
 
 const app = express();
