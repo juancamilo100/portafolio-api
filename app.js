@@ -10,7 +10,7 @@ const { authenticateUser } = require('./src/middleware/auth');
 
 const authRouter = require('./src/controllers/auth');
 const usersRouter = require('./src/controllers/users');
-const portfoliosRouter = require('./src/controllers/portfolios');
+const portfoliosRouter = require('./src/routes/portfolios');
 
 const app = express();
 
