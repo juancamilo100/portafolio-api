@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../models/user');
 const { SECRET_KEY } = require('../config');
 
-router.post('/login', async (req, res, next) => {
+const loginUser = async (req, res, next) => {
     if(!req.body.username || !req.body.password) {
         return next(createError(400, 'Incomplete request'));
     }
@@ -23,9 +23,9 @@ router.post('/login', async (req, res, next) => {
     } catch (error) {
         return next(createError(500, 'Something went wrong'));
     }
-});
+};
 
-router.post('/register', async (req, res, next) => {
+const registerUser = async (req, res, next) => {
     if(!req.body.username || !req.body.password) {
         return next(createError(500, 'Incomplete request'));
     }
@@ -56,6 +56,6 @@ router.post('/register', async (req, res, next) => {
     } catch (error) {
         return next(createError(500, error));
     }
-});
+};
 
-module.exports = router;
+module.exports = { loginUser, registerUser };

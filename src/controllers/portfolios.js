@@ -1,29 +1,26 @@
-const express = require('express');
-const router = express.Router();
 const createError = require('http-errors');
 const { Portfolio } = require('../models/portfolio');
-const { authorizeUser } = require('../middleware/portfolioAuth');
 
 // Need to add authorization to this route.  It should only be available for admin users
-router.get('/', async (req, res, next) => {
+const getPortfolios = async (req, res, next) => {
     try {
         const allPortfolios = await Portfolio.find();
         res.send(allPortfolios);
     } catch (error) {
         next(createError(500));
     }
-});
+};
 
-router.get('/:id', authorizeUser, async (req, res, next) => {
+const getPortfolioById = async (req, res, next) => {
     try {
         const portfolio = await Portfolio.find({_id: req.params.id});
         res.send(portfolio);
     } catch (error) {
         next(createError(500));
     }
-});
+};
 
-router.post('/', async (req, res, next) => {
+const createPortfolio = async (req, res, next) => {
     if(!req.body.funds) {
         next(createError(500));
         return;
@@ -51,9 +48,9 @@ router.post('/', async (req, res, next) => {
     } catch (error) {
         next(createError(500));
     }
-});
+};
 
-router.patch('/:id', authorizeUser, async (req, res, next) => {
+const updatePorfolio = async (req, res, next) => {
     try {
         const updatedPortfolio = await Portfolio.findOneAndUpdate(
             { _id: req.params.id }, 
@@ -65,16 +62,22 @@ router.patch('/:id', authorizeUser, async (req, res, next) => {
     } catch (error) {
         next(createError(500));
     }
-});
+};
 
-router.delete('/:id', authorizeUser, async (req, res, next) => {
+const deletePortfolio = async (req, res, next) => {
     try {
         const deletedPortfolio = await Portfolio.findByIdAndRemove(req.params.id);
         res.send(deletedPortfolio);
     } catch (error) {
         next(createError(500));
     }
-})
+}
 
-module.exports = router;
+module.exports = {
+    getPortfolios,
+    getPortfolioById,
+    createPortfolio,
+    updatePorfolio,
+    deletePortfolio
+};
 
