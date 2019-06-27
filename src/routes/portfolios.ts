@@ -1,5 +1,10 @@
 import express from "express";
-import { createPortfolio, deletePortfolio, getPortfolioById, getPortfolios, updatePorfolio } from "../controllers/portfolios";
+import {
+	createPortfolio,
+	deletePortfolio,
+	getPortfolioById,
+	getPortfolios,
+	updatePorfolio } from "../controllers/portfolios";
 import { authorizeUser } from "../middleware/portfolioAuth";
 
 const router = express.Router();

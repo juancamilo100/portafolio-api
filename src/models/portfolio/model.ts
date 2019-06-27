@@ -3,14 +3,14 @@ import { IUser } from "../user";
 import { schema } from "./schema";
 
 interface IFund {
-    ticker: string;
-    portfolioPercentage: string;
+	ticker: string;
+	portfolioPercentage: string;
 }
 
 interface IPortfolio extends Document {
-    name: string;
-    funds: IFund[];
-    user: IUser["_id"];
+	name: string;
+	funds: IFund[];
+	user: IUser["_id"];
 }
 
 const Portfolio = mongoose.model<IPortfolio>("Portfolio", schema);
