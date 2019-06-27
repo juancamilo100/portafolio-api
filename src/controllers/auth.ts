@@ -1,10 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const createError = require('http-errors');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const { User } = require('../models/user');
-const { SECRET_KEY } = require('../config');
+import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { User } from '../models/user';
+import { SECRET_KEY } from '../config';
 
 const loginUser = async (req, res, next) => {
     if(!req.body.username || !req.body.password) {
@@ -58,4 +56,4 @@ const registerUser = async (req, res, next) => {
     }
 };
 
-module.exports = { loginUser, registerUser };
+export { loginUser, registerUser };

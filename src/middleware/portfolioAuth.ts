@@ -1,5 +1,5 @@
-const { User } = require('../models/user');
-const createError = require('http-errors');
+import { User } from '../models/user';
+import createError from 'http-errors';
 
 const authorizeUser = async (req, res, next) => {
     const user = await User.findById(req.userId).populate('portfolios');
@@ -12,4 +12,4 @@ const authorizeUser = async (req, res, next) => {
     next();
 }
 
-module.exports = { authorizeUser };
+export { authorizeUser };

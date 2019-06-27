@@ -1,3 +1,5 @@
 const SECRET_KEY = 'someSecret';
 
-module.exports = { SECRET_KEY };
+export { 
+    SECRET_KEY 
+};

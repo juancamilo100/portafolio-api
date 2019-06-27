@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
-const databaseManager = require('./databaseManager');
+import databaseManager from './databaseManager';
 
 const databaseInit = () => {
     const mongoDatabase = new databaseManager(
-        mongoose,
         'mongodb://localhost:27017/',
         'portafolio'
     );
@@ -11,4 +9,4 @@ const databaseInit = () => {
     mongoDatabase.connect();
 }
 
-module.exports = { databaseInit };
+export { databaseInit };

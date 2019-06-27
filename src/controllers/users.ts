@@ -1,5 +1,5 @@
-const createError = require('http-errors');
-const { User } = require('../models/user');
+import createError from 'http-errors';
+import { User } from '../models/user';
 
 // Need to add authorization to this route.  It should only be available for admin users
 const getUsers = async (req, res, next) => {
@@ -22,4 +22,4 @@ const getUserById = async (req, res, next) => {
     }
 };
 
-module.exports = { getUsers, getUserById };
+export { getUsers, getUserById };

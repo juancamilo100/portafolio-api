@@ -1,5 +1,5 @@
-const createError = require('http-errors');
-const { Portfolio } = require('../models/portfolio');
+import createError from 'http-errors';
+import { Portfolio } from '../models/portfolio';
 
 // Need to add authorization to this route.  It should only be available for admin users
 const getPortfolios = async (req, res, next) => {
@@ -73,7 +73,7 @@ const deletePortfolio = async (req, res, next) => {
     }
 }
 
-module.exports = {
+export {
     getPortfolios,
     getPortfolioById,
     createPortfolio,
