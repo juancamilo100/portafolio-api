@@ -1,12 +1,12 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import errorHandler from "./src/middleware/errorHandler";
-import notFoundHandler from "express";
 import compression from "compression";
+import cookieParser from "cookie-parser";
+import express from "express";
+import notFoundHandler from "express";
 import logger from "morgan";
-import initDatabaseStreams from "./src/mongo/streams";
 import apiRoutes from "./src/api";
+import errorHandler from "./src/middleware/errorHandler";
 import { databaseInit } from "./src/mongo/initDb";
+import initDatabaseStreams from "./src/mongo/streams";
 
 const app = express();
 

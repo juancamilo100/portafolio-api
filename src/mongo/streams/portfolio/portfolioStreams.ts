@@ -1,46 +1,42 @@
-import { User, IUser } from '../../../models/user';
-import { Portfolio, IPortfolio } from '../../../models/portfolio';
+import { IPortfolio, Portfolio } from "../../../models/portfolio";
+import { IUser, User } from "../../../models/user";
 
 interface IPortfolioStreamData {
-    operationType: string,
-    documentKey: { _id: string }
-    fullDocument: IPortfolio,
+    operationType: string;
+    documentKey: { _id: string };
+    fullDocument: IPortfolio;
 }
 
-const syncPortafolioToUser = async (data: IPortfolioStreamData, operation: string) => {
-    try {
-        const user: IUser | null = await User.findById(data.fullDocument.user);
-        const newPortfolios: IPortfolio['_id'][] = user!.portfolios.slice(0);
+const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
+    const user: IUser | null = await User.findById(data.fullDocument.user).exec();
+    const newPortfolios: Array<IPortfolio["_id"]> = user!.portfolios.slice(0);
 
-        switch (operation) {
-            case "insert":
-                newPortfolios.push(data.documentKey._id);
-                user!.portfolios = newPortfolios;
-                break;
-            
-            case "delete":
-                user!.portfolios = newPortfolios.filter(
-                        (portfolioId: IPortfolio['_id']) => !(portfolioId === data.documentKey._id)
-                    );
-                break;                
-        
-            default:
-                break;
-        }
+    switch (data.operationType) {
+        case "insert":
+            newPortfolios.push(data.documentKey._id);
+            user!.portfolios = newPortfolios;
+            break;
 
-        await user!.save();
-    } catch (error) {
-        throw error;
+        case "delete":
+            user!.portfolios = newPortfolios.filter(
+                    (portfolioId: IPortfolio["_id"]) => portfolioId !== data.documentKey._id
+                );
+            break;
+
+        default:
+            break;
     }
-}
+
+    await user!.save();
+};
 
 const portfolioStreamsInit = () => {
     Portfolio.watch()
-    .on('change', async (data) => { 
-        if (['insert', 'delete'].indexOf(data.operationType) > -1) {
-            syncPortafolioToUser(data, data.operationType);
+    .on("change", async (data) => {
+        if (["insert", "delete"].indexOf(data.operationType) > -1) {
+            syncPortafolioToUser(data);
         }
     });
-}
+};
 
 export default portfolioStreamsInit;

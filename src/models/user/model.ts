@@ -1,14 +1,14 @@
-import mongoose, { Document } from 'mongoose';
-import { schema } from './schema';
-import { IPortfolio } from '../portfolio/'
+import mongoose, { Document } from "mongoose";
+import { IPortfolio } from "../portfolio/";
+import { schema } from "./schema";
 
 interface IUser extends Document {
-    username: string,
-    email: string,
-    password: string,
-    portfolios: IPortfolio['_id'][]
+    username: string;
+    email: string;
+    password: string;
+    portfolios: Array<IPortfolio["_id"]>;
 }
 
-const User = mongoose.model<IUser>('User', schema);
+const User = mongoose.model<IUser>("User", schema);
 
 export { User, IUser };

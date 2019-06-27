@@ -1,7 +1,7 @@
-import portfolioStreamsInit from './portfolio/portfolioStreams';
+import portfolioStreamsInit from "./portfolio/portfolioStreams";
 
 const initDatabaseStreams = () => {
     portfolioStreamsInit();
-}
+};
 
-export default initDatabaseStreams; 
+export default initDatabaseStreams;

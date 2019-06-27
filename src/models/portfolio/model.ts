@@ -1,18 +1,18 @@
-import mongoose, { Document } from 'mongoose';
-import { schema } from './schema';
-import { IUser } from '../user'
+import mongoose, { Document } from "mongoose";
+import { IUser } from "../user";
+import { schema } from "./schema";
 
 interface IFund {
-    ticker: string,
-    portfolioPercentage: string
+    ticker: string;
+    portfolioPercentage: string;
 }
 
-interface IPortfolio extends Document{
-    name: string,
-    funds: IFund[],
-    user: IUser['_id']
+interface IPortfolio extends Document {
+    name: string;
+    funds: IFund[];
+    user: IUser["_id"];
 }
 
-const Portfolio = mongoose.model<IPortfolio>('Portfolio', schema);
+const Portfolio = mongoose.model<IPortfolio>("Portfolio", schema);
 
-export { Portfolio, IPortfolio };
+export { Portfolio, IPortfolio, IFund };

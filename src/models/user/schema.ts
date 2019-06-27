@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
@@ -15,7 +15,7 @@ const schema = new Schema({
         type: String,
         required: [true],
     },
-    portfolios: [{type: ObjectId, ref: 'Portfolio'}]
+    portfolios: [{type: ObjectId, ref: "Portfolio"}]
 });
 
 export { schema };

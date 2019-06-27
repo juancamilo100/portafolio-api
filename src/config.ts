@@ -1,5 +1,5 @@
-const SECRET_KEY = 'someSecret';
+const SECRET_KEY = "someSecret";
 
-export { 
-    SECRET_KEY 
+export {
+    SECRET_KEY
 };

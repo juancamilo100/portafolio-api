@@ -1,7 +1,8 @@
-import createError from 'http-errors';
+import { NextFunction, Request, RequestHandler, Response } from "express";
+import createError from "http-errors";
 
-const notFoundHandler = (req, res, next) => {
-	next(createError(404));
+const notFoundHandler: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+	next( createError(404) );
 };
 
 export default notFoundHandler;
