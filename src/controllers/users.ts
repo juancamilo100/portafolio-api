@@ -2,7 +2,6 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import { User } from "../models/user";
 
-// Need to add authorization to this route.  It should only be available for admin users
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const allUsers = await User.find().select(["-password"]).populate("portfolios").exec();

@@ -3,17 +3,18 @@
 /**
  * Module dependencies.
  */
-/* tslint:disable */
-const app = require("../app");
-const debug = require("debug")("portafolio:server");
-const http = require("http");
+import debug from "debug";
+import http from "http";
+import app from "../app";
+// const debug = require("debug")("portafolio:server");
+// const http = require("http");
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+const normalizedPort = normalizePort(process.env.PORT || "3000");
+app.set("port", normalizedPort);
 
 /**
  * Create HTTP server.
@@ -25,7 +26,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(normalizedPort);
 server.on("error", onError);
 server.on("listening", onListening);
 
@@ -37,13 +38,13 @@ function normalizePort(val: string) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
-    return val;
+	// named pipe
+	return val;
   }
 
   if (port >= 0) {
-    // port number
-    return port;
+	// port number
+	return port;
   }
 
   return false;
@@ -55,25 +56,25 @@ function normalizePort(val: string) {
 
 function onError(error: any) {
   if (error.syscall !== "listen") {
-    throw error;
+	throw error;
   }
 
-  const bind = typeof port === "string"
-    ? "Pipe " + port
-    : "Port " + port;
+  const bind = typeof normalizedPort === "string"
+	? "Pipe " + normalizedPort
+	: "Port " + normalizedPort;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
+	case "EACCES":
+		console.error(bind + " requires elevated privileges");
+		process.exit(1);
+		break;
+	case "EADDRINUSE":
+		console.error(bind + " is already in use");
+		process.exit(1);
+		break;
+	default:
+		throw error;
   }
 }
 
@@ -84,9 +85,9 @@ function onError(error: any) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string"
-    ? "pipe " + addr
-    : "port " + addr.port;
-  console.log("Listening on " + bind);
+	? "pipe " + addr!
+	: "port " + addr!.port;
+  console.info("Listening on " + bind);
 
-  debug("Listening on " + bind);
+  debug("portafolio:server")("Listening on " + bind);
 }

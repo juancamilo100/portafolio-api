@@ -1,3 +1,3 @@
-import { IUser, User } from "./model";
+import { User, IUser } from "./model";
 
 export { User, IUser };

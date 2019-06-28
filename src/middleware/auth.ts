@@ -15,7 +15,7 @@ const authenticateUser: RequestHandler = async (req: Request, res: Response, nex
 	}
 
 	try {
-		const decodedToken = jwt.verify(token, SECRET_KEY) as IDecodedToken; // , { complete: true });
+		const decodedToken = jwt.verify(token, SECRET_KEY) as IDecodedToken;
 		req.userId = decodedToken.userId;
 		next();
 	} catch (error) {
