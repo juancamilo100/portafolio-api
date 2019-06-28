@@ -1,16 +1,13 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
+import { Types } from "mongoose";
 import { IFund, Portfolio } from "../models/portfolio";
 
 // Need to add authorization to this route.  It should only be available for admin users
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("Getting portfolios");
-    
-	console.log(req.userId);
-	
-	   try {
-		const allPortfolios = await Portfolio.find().exec();
-		res.send(allPortfolios);
+	try {
+		const portfolios = await Portfolio.find({user: req.userId!}).exec();
+  res.send(portfolios);
 	} catch (error) {
 		next(createError(500));
 	}

@@ -4,8 +4,11 @@ import { User } from "../models/user";
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const allUsers = await User.find().select(["-password"]).populate("portfolios").exec();
-		res.send(allUsers);
+		const allUsers = req.query.portfolios === "show" ?
+			await User.find().select(["-password"]).populate("portfolios").exec() :
+			await User.find().select(["-password"]).exec();
+
+        res.send(allUsers);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
