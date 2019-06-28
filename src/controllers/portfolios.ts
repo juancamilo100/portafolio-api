@@ -4,7 +4,11 @@ import { IFund, Portfolio } from "../models/portfolio";
 
 // Need to add authorization to this route.  It should only be available for admin users
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-	try {
+    console.log("Getting portfolios");
+    
+	console.log(req.userId);
+	
+	   try {
 		const allPortfolios = await Portfolio.find().exec();
 		res.send(allPortfolios);
 	} catch (error) {
