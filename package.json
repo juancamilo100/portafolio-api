@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+        "prebuild": "tslint -c tslint.json -p tsconfig.json",
         "build": "tsc",
         "prestart": "npm run build",
         "serve": "nodemon ./bin/www",
