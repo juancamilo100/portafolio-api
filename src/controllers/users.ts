@@ -4,11 +4,11 @@ import { User } from "../models/user";
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const allUsers = req.query.portfolios === "show" ?
+		const users = req.query.portfolios === "show" ?
 			await User.find().select(["-password"]).populate("portfolios").exec() :
 			await User.find().select(["-password"]).exec();
 
-        res.send(allUsers);
+        res.send(users);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
