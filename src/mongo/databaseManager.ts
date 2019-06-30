@@ -8,7 +8,9 @@ class DatabaseManager {
 			useNewUrlParser: true,
 			dbName: this._databaseName,
 			connectTimeoutMS: 5000
-		});
+        });
+
+        mongoose.set("useFindAndModify", false);
 
 		mongoose.connection.on("connected", () => {
 			console.log(`Connection successful to ${this._databaseName} at ${this._connectionString}`);
