@@ -1,26 +1,37 @@
 {
-  "name": "portafolio",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "nodemon ./bin/www",
-    "test": "mocha --timeout 10000"
-  },
-  "dependencies": {
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "http-errors": "~1.6.2",
-    "jasmine": "^3.4.0",
-    "mocha": "^6.1.4",
-    "mongoose": "^5.5.9",
-    "morgan": "~1.9.0",
-    "request": "^2.88.0",
-    "supertest": "^4.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "^1.19.0"
-  }
+    "name": "portafolio-api",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "prebuild": "tslint -c tslint.json -p tsconfig.json",
+        "build": "tsc",
+        "prestart": "npm run build",
+        "serve": "nodemon ./bin/www",
+        "start": "node ./build/bin/www"
+    },
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "compression": "^1.7.4",
+      "cookie-parser": "~1.4.3",
+      "debug": "~2.6.9",
+      "express": "~4.16.0",
+      "http-errors": "~1.6.2",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.5.9",
+      "morgan": "~1.9.0",
+      "tslint": "^5.18.0",
+      "typescript": "^3.5.2"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/compression": "^0.0.36",
+        "@types/cookie-parser": "^1.4.1",
+        "@types/debug": "^4.1.4",
+        "@types/express": "^4.17.0",
+        "@types/http-errors": "^1.6.1",
+        "@types/jsonwebtoken": "^8.3.2",
+        "@types/mongoose": "^5.5.6",
+        "@types/morgan": "^1.7.35",
+        "nodemon": "^1.19.0"
+    }
 }
