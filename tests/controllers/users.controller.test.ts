@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
-import app from "../app";
-import * as request from "supertest";
+import app from "../../app";
+import request from "supertest";
 
 describe("GET / - a simple api endpoint", () => {
   it("Hello API Request", async () => {
