@@ -30,10 +30,14 @@ const registerUser: RequestHandler = async (req: Request, res: Response, next: N
 	}
 
 	try {
-		const byUsername = await User.findOne({ email: req.body.email }).lean().exec();
-		const byEmail = await User.findOne({ username: req.body.username }).lean().exec();
+        const existingUser = await User.find({
+            $or: [
+                { email: req.body.email },
+                { username: req.body.username }
+            ]
+        });
 
-		if (byUsername || byEmail) {
+		if (existingUser) {
 			return next(createError(409, "User already exists"));
 		}
 	} catch (error) {

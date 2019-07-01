@@ -6,8 +6,6 @@
 import debug from "debug";
 import http from "http";
 import app from "../app";
-// const debug = require("debug")("portafolio:server");
-// const http = require("http");
 
 /**
  * Get port from environment and store in Express.

@@ -1,11 +1,14 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+import { Schema } from "mongoose";
+import { isEmail } from "./validators";
+
 const ObjectId = Schema.Types.ObjectId;
 
 const schema = new Schema({
 	email: {
 		type: String,
-		required: [true],
+        required: [true],
+        trim: true,
+        validate: [isEmail, 'Invalid email address'],
 	},
 	password: {
 		type: String,
