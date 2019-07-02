@@ -4,8 +4,8 @@ import {
 	deletePortfolio,
 	getPortfolioById,
 	getPortfolios,
-	updatePorfolio } from "../controllers/portfolios";
-import { authorizeUser } from "../middleware/portfolioAuth";
+	updatePorfolio } from "../controllers/portfolios.controller";
+import { authorizeUser } from "../middleware/portfolioAuth.middleware";
 
 const router = express.Router();
 

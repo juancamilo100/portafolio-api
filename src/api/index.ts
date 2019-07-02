@@ -1,8 +1,8 @@
 import express from "express";
-import { authenticateUser } from "../middleware/auth";
-import authRouter from "../routes/auth";
-import portfoliosRouter from "../routes/portfolios";
-import usersRouter from "../routes/users";
+import { authenticateUser } from "../middleware/auth.middleware";
+import authRouter from "../routes/auth.routes";
+import portfoliosRouter from "../routes/portfolios.routes";
+import usersRouter from "../routes/users.routes";
 
 const router = express.Router();
 
