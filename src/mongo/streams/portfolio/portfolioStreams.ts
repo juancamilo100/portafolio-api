@@ -1,5 +1,6 @@
 import { IPortfolio, Portfolio } from "../../../models/portfolio";
 import { IUser, User } from "../../../models/user";
+import { Types } from "mongoose";
 
 interface IPortfolioStreamData {
 	operationType: string;
@@ -13,7 +14,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 
 	switch (data.operationType) {
 		case "insert":
-			newPortfolios.push(data.documentKey._id);
+			newPortfolios.push(Types.ObjectId(data.documentKey._id));
 			user!.portfolios = newPortfolios;
 			break;
 

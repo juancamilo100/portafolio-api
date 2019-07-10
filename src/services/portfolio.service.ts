@@ -1,28 +1,38 @@
 import IDataService from '../interfaces/dataService.interface';
 import { IPortfolio, Portfolio } from '../models/portfolio';
+import { Types } from "mongoose";
 
-class PortfolioDataService implements IDataService<IPortfolio> {
-    getAll() {
+class PortfolioService implements IDataService<IPortfolio> {
+    public getAll() {
         return Portfolio.find().exec();
     }
 
-    get(id: string) {
+    public get(id: string) {
         return Portfolio.findOne({_id: id}).exec();
     }
 
-    create(entity: IPortfolio) {
+    public create(entity: IPortfolio) {
+        const newPortfolio = new Portfolio({
+            _id: Types.ObjectId(),
+			funds: entity.funds,
+			name: entity.name,
+			user: entity.user
+		});
 
+		return newPortfolio.save();
     }
 
-    update(entity: IPortfolio) {
-
+    public update(entity: IPortfolio) {
+        return Portfolio.findOneAndUpdate(
+			{ _id: entity._id },
+			entity,
+			{ new: true }
+		).exec();
     }
 
-    delete(id: string) {
-
+    public delete(id: string) {
+        return Portfolio.findByIdAndRemove(id).exec();
     }
 }
 
-
-Property 'get' in type 'PortfolioDataService' is not assignable to the same property in base type 'IDataService<IPortfolio>'.
-  Type '() => Promise<IPortfolio[]>' is not assignable to type '{ (): Promise<IPortfolio[]>; (id: string): Promise<IPortfolio>; }'
+export default new PortfolioService();
