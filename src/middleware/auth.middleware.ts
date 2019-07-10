@@ -2,10 +2,9 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config";
-import { IUser } from "../models/user";
 
 interface IDecodedToken {
-	userId: IUser["_id"];
+	userId: string;
 }
 
 const authenticateUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {

@@ -14,13 +14,14 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 
 	switch (data.operationType) {
 		case "insert":
-			newPortfolios.push(Types.ObjectId(data.documentKey._id));
+			const portfolioId = Types.ObjectId(data.documentKey._id); 
+			newPortfolios.push(portfolioId);
 			user!.portfolios = newPortfolios;
 			break;
 
 		case "delete":
 			user!.portfolios = newPortfolios.filter(
-					(portfolioId: IPortfolio["_id"]) => portfolioId !== data.documentKey._id
+					(portfolioId: IPortfolio["_id"]) => portfolioId.toHexString() !== data.documentKey._id
 				);
 			break;
 

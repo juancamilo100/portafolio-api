@@ -5,7 +5,8 @@ const ObjectId = Schema.Types.ObjectId;
 
 const schema = new Schema({
     _id: {
-        type: ObjectId
+        type: ObjectId,
+		required: true
     },
 	funds: {
 		type: [

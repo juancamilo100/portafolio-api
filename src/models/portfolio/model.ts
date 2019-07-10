@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import { Document, model, Types } from "mongoose";
 import { IUser } from "../user";
 import { schema } from "./schema";
 
@@ -8,12 +8,12 @@ interface IFund {
 }
 
 interface IPortfolio extends Document {
-    _id: Schema.Types.ObjectId
+    _id: Types.ObjectId
 	name: string;
 	funds: IFund[];
 	user: IUser["_id"];
 }
 
-const Portfolio = mongoose.model<IPortfolio>("Portfolio", schema);
+const Portfolio = model<IPortfolio>("Portfolio", schema);
 
 export { Portfolio, IPortfolio, IFund };

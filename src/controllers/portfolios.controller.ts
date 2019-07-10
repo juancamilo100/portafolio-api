@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import { IFund, Portfolio } from "../models/portfolio";
 import PortfolioService from "../services/portfolio.service";
+import { Types } from "mongoose";
 
 // Need to add authorization to this route.  It should return all portfolios if it's an admin user
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +17,8 @@ const getPortfolios: RequestHandler = async (req: Request, res: Response, next: 
 
 const getPortfolioById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const portfolio = await Portfolio.find({_id: req.params.id}).exec();
+		// const portfolio = await Portfolio.find({_id: req.params.id}).exec();
+		const portfolio = await PortfolioService.get(req.params.id);
 		res.send(portfolio);
 	} catch (error) {
 		next(createError(500));
@@ -39,14 +41,22 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 		return;
 	}
 
+	Types.ObjectId()
+
 	try {
-		const newPortfolio = new Portfolio({
+		// const newPortfolio = new Portfolio({
+		// 	funds: req.body.funds,
+		// 	name: req.body.name,
+		// 	user: req.userId
+		// });
+
+		// const createdPortfolio = await newPortfolio.save();
+		const createdPortfolio = await PortfolioService.create({
+			_id: Types.ObjectId(),
 			funds: req.body.funds,
 			name: req.body.name,
-			user: req.userId
+			user: Types.ObjectId(req.userId)
 		});
-
-		const createdPortfolio = await newPortfolio.save();
 		res.send(createdPortfolio);
 	} catch (error) {
 		next(createError(500));
