@@ -5,13 +5,11 @@ import {
     Response } from "express";
 import createError from "http-errors";
 import { User } from "../models/user";
+import UserService from "../services/user.service";
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const users = req.query.portfolios === "show" ?
-			await User.find().select(["-password"]).populate("portfolios").exec() :
-			await User.find().select(["-password"]).exec();
-
+		const users = await UserService.getAll();
         res.send(users);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
@@ -22,7 +20,8 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 	if (req.userId !== req.params.id) { return next(createError(401, "Not authorized")); }
 
 	try {
-		const user = await User.findById(req.userId, { password: 0 }).populate("portfolios").exec();
+		// const user = await User.findById(req.userId, { password: 0 }).populate("portfolios").exec();
+		const user = await UserService.get(req.params.id);
 		res.send(user);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
