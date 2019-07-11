@@ -1,15 +1,14 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
-import { IFund, Portfolio } from "../models/portfolio";
+import { IFund, Portfolio, IPortfolio } from "../models/portfolio";
 import PortfolioService from "../services/portfolio.service";
-import { Types } from "mongoose";
 
 // Need to add authorization to this route.  It should return all portfolios if it's an admin user
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
         // const portfolios = await Portfolio.find({user: req.userId!}).exec();
         const portfolios = await PortfolioService.getAll();
-  res.send(portfolios);
+        res.send(portfolios);
 	} catch (error) {
 		next(createError(500));
 	}
@@ -41,22 +40,14 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 		return;
 	}
 
-	Types.ObjectId()
-
 	try {
-		// const newPortfolio = new Portfolio({
-		// 	funds: req.body.funds,
-		// 	name: req.body.name,
-		// 	user: req.userId
-		// });
-
-		// const createdPortfolio = await newPortfolio.save();
-		const createdPortfolio = await PortfolioService.create({
-			_id: Types.ObjectId(),
+        const newPortfolio = {
 			funds: req.body.funds,
 			name: req.body.name,
-			user: Types.ObjectId(req.userId)
-		});
+			user: req.userId
+        } as IPortfolio
+        
+		const createdPortfolio = await PortfolioService.create(newPortfolio);
 		res.send(createdPortfolio);
 	} catch (error) {
 		next(createError(500));
@@ -79,7 +70,7 @@ const updatePorfolio: RequestHandler = async (req: Request, res: Response, next:
 
 const deletePortfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedPortfolio = await Portfolio.findByIdAndRemove(req.params.id).exec();
+		const deletedPortfolio = await Portfolio.findByIdAndDelete(req.params.id).exec();
 		res.send(deletedPortfolio);
 	} catch (error) {
 		next(createError(500));

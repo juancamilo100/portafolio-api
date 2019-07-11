@@ -1,5 +1,6 @@
 import IDataService from '../interfaces/dataService.interface';
 import { IPortfolio, Portfolio } from '../models/portfolio';
+import { Types } from "mongoose";
 
 class PortfolioService implements IDataService<IPortfolio> {
     public getAll() {
@@ -12,7 +13,7 @@ class PortfolioService implements IDataService<IPortfolio> {
 
     public create(entity: IPortfolio) {
         const newPortfolio = new Portfolio({
-            _id: entity._id,
+            _id: Types.ObjectId(),
 			funds: entity.funds,
 			name: entity.name,
 			user: entity.user

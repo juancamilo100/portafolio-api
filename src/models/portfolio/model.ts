@@ -1,4 +1,4 @@
-import { Document, model, Types } from "mongoose";
+import { Document, model } from "mongoose";
 import { IUser } from "../user";
 import { schema } from "./schema";
 
@@ -8,7 +8,7 @@ interface IFund {
 }
 
 interface IPortfolio extends Document {
-    _id: Types.ObjectId
+    _id: string
 	name: string;
 	funds: IFund[];
 	user: IUser["_id"];

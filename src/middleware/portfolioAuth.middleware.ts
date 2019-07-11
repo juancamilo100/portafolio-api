@@ -6,7 +6,7 @@ const authorizeUser: RequestHandler = async (req: Request, res: Response, next: 
 	const user = await User.findById(req.userId).exec();
 
 	const isAuthorized = user!.portfolios.find((portfolioId) => {
-		return req.params.id === portfolioId.toHexString();
+		return req.params.id === portfolioId.toString();
 	});
 
 	if (!isAuthorized) { return next(createError(401, "Unauthorized")); }
