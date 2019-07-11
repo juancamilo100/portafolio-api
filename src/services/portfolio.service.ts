@@ -23,9 +23,11 @@ class PortfolioService implements IDataService<IPortfolio> {
     }
 
     public update(entity: IPortfolio) {
+        const { _id, ...updatedFields } = entity;
+
         return Portfolio.findOneAndUpdate(
-			{ _id: entity._id },
-			entity,
+			{ _id: _id },
+			updatedFields,
 			{ new: true }
 		).exec();
     }

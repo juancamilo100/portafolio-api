@@ -1,12 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
-import { IFund, Portfolio, IPortfolio } from "../models/portfolio";
+import { IFund, IPortfolio } from "../models/portfolio";
 import PortfolioService from "../services/portfolio.service";
 
 // Need to add authorization to this route.  It should return all portfolios if it's an admin user
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-        // const portfolios = await Portfolio.find({user: req.userId!}).exec();
         const portfolios = await PortfolioService.getAll();
         res.send(portfolios);
 	} catch (error) {
@@ -16,7 +15,6 @@ const getPortfolios: RequestHandler = async (req: Request, res: Response, next: 
 
 const getPortfolioById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		// const portfolio = await Portfolio.find({_id: req.params.id}).exec();
 		const portfolio = await PortfolioService.get(req.params.id);
 		res.send(portfolio);
 	} catch (error) {
@@ -56,12 +54,12 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 
 const updatePorfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const updatedPortfolio = await Portfolio.findOneAndUpdate(
-			{ _id: req.params.id },
-			req.body.updatedFields,
-			{ new: true }
-		).exec();
-
+		const portfolioToUpdate: IPortfolio = {
+			_id: req.params.id,
+			...req.body.updatedFields
+		} 
+		
+		const updatedPortfolio = await PortfolioService.update(portfolioToUpdate);
 		res.send(updatedPortfolio);
 	} catch (error) {
 		next(createError(500));
@@ -70,7 +68,7 @@ const updatePorfolio: RequestHandler = async (req: Request, res: Response, next:
 
 const deletePortfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedPortfolio = await Portfolio.findByIdAndDelete(req.params.id).exec();
+		const deletedPortfolio = await PortfolioService.delete(req.params.id);
 		res.send(deletedPortfolio);
 	} catch (error) {
 		next(createError(500));
