@@ -11,6 +11,16 @@ class PortfolioService implements IDataService<IPortfolio> {
         return Portfolio.findById(id).exec();
     }
 
+    //TODO: Need to implement properly
+    public getByField(field: object) {
+        return Promise.resolve({} as IPortfolio)
+    }
+
+    //TODO: Need to implement properly
+    public getByEitherFields(field: object) {
+        return Promise.resolve({} as IPortfolio)
+    }
+
     public create(entity: IPortfolio) {
         const newPortfolio = new Portfolio({
             _id: Types.ObjectId(),

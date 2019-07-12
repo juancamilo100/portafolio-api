@@ -12,7 +12,7 @@ class PortfolioService implements IDataService<IUser> {
     }
 
     public getByField(field: object) {
-        return User.find({field}).exec();
+        return User.findOne(field).exec();
     }
     
     public getByEitherFields(fields: Array<object>) {
