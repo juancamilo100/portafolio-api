@@ -31,7 +31,7 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 //TODO: Add authorization to this endpoint.  Only admin user should be able to perform this action
 const deleteUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedUser = await User.findOneAndDelete({ _id: req.params.id }).exec();
+		const deletedUser = await UserService.delete(req.params.id);
 		res.send(deletedUser);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));

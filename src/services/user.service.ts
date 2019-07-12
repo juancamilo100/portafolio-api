@@ -11,13 +11,23 @@ class PortfolioService implements IDataService<IUser> {
         return User.findById(id).exec();
     }
 
+    public getByField(field: object) {
+        return User.find({field}).exec();
+    }
+    
+    public getByEitherFields(fields: Array<object>) {
+        return User.findOne({
+            $or: fields
+        }).lean().exec();
+    }
+
     public create(entity: IUser) {
         const newUser = new User({
             _id: Types.ObjectId(),
-			email: entity.email,
+            username: entity.username,
             password: entity.password,
-            portfolios: [],
-            username: entity.username
+			email: entity.email,
+            portfolios: []
 		});
 
 		return newUser.save();

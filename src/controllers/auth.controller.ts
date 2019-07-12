@@ -3,7 +3,8 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config";
-import { User } from "../models/user";
+import { User, IUser } from "../models/user";
+import UserService from "../services/user.service";
 
 const loginUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	if (!req.body.username || !req.body.password) {
@@ -20,7 +21,7 @@ const loginUser: RequestHandler = async (req: Request, res: Response, next: Next
 		const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: 3600 });
 		res.send({ auth: true, token});
 	} catch (error) {
-		return next(createError(500, "Something went wrong"));
+		return next(createError(500, "Somethin  g went wrong"));
 	}
 };
 
@@ -30,10 +31,7 @@ const registerUser: RequestHandler = async (req: Request, res: Response, next: N
 	}
 
 	try {
-		const byUsername = await User.findOne({ email: req.body.email }).lean().exec();
-		const byEmail = await User.findOne({ username: req.body.username }).lean().exec();
-
-		if (byUsername || byEmail) {
+		if (await userExists(req.body.username, req.body.email)) {
 			return next(createError(409, "User already exists"));
 		}
 	} catch (error) {
@@ -43,18 +41,25 @@ const registerUser: RequestHandler = async (req: Request, res: Response, next: N
 	const hashedPassword = bcrypt.hashSync(req.body.password);
 
 	try {
-		const newUser = await User.create({
-								email: req.body.email,
-								password: hashedPassword,
-								portfolios: [],
-								username: req.body.username
-							});
+        const userToCreate = {
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email  
+        } as IUser
 
+        const newUser = await UserService.create(userToCreate);
 		const token = jwt.sign({id: newUser._id}, SECRET_KEY, { expiresIn: 3600 });
 		res.send({ auth: true, token});
 	} catch (error) {
 		return next(createError(500, error));
 	}
 };
+
+const userExists = async (username: string, email: string) => {    
+    return UserService.getByEitherFields([
+        { email: email },
+        { username: username }
+    ]);
+}
 
 export { loginUser, registerUser };

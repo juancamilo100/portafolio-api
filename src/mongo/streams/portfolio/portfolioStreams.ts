@@ -7,7 +7,7 @@ const operations = {
     DELETE: 'delete'
 }
 
-const possibleOperations = Object.values(operations);
+const targetOperations = Object.values(operations);
 
 interface IPortfolioStreamData {
 	operationType: string;
@@ -52,7 +52,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 const portfolioStreamsInit = () => {
 	Portfolio.watch()
 	.on("change", async (data) => {
-		if (possibleOperations.indexOf(data.operationType) > -1) {
+		if (targetOperations.indexOf(data.operationType) > -1) {
 			syncPortafolioToUser(data);
 		}
 	});
