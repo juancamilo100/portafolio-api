@@ -2,7 +2,7 @@ import IDataService from '../interfaces/dataService.interface';
 import { IUser, User } from '../models/user';
 import { Types } from "mongoose";
 
-class PortfolioService implements IDataService<IUser> {
+class UserService implements IDataService<IUser> {
     public getAll() {
         return User.find().select(["-password"]).exec();
     }
@@ -48,4 +48,4 @@ class PortfolioService implements IDataService<IUser> {
     }
 }
 
-export default new PortfolioService();
+export default new UserService();

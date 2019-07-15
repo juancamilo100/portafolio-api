@@ -3,7 +3,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "../config";
-import { User, IUser } from "../models/user";
+import { IUser } from "../models/user";
 import UserService from "../services/user.service";
 
 const loginUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -55,7 +55,7 @@ const registerUser: RequestHandler = async (req: Request, res: Response, next: N
 	}
 };
 
-const userExists = async (username: string, email: string) => {    
+const userExists = (username: string, email: string) => {    
     return UserService.getByEitherFields([
         { email: email },
         { username: username }
