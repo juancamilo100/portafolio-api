@@ -21,7 +21,7 @@ const loginUser: RequestHandler = async (req: Request, res: Response, next: Next
 		const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: 3600 });
 		res.send({ auth: true, token});
 	} catch (error) {
-		return next(createError(500, "Somethin  g went wrong"));
+		return next(createError(500, "Something went wrong"));
 	}
 };
 
