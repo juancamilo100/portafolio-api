@@ -41,13 +41,13 @@ const registerUser: RequestHandler = async (req: Request, res: Response, next: N
 	const hashedPassword = bcrypt.hashSync(req.body.password);
 
 	try {
-        const userToCreate = {
+        const newUser = {
             username: req.body.username,
             password: hashedPassword,
             email: req.body.email  
         } as IUser
 
-        const newUser = await UserService.create(userToCreate);
+        await UserService.create(newUser);
 		const token = jwt.sign({id: newUser._id}, SECRET_KEY, { expiresIn: 3600 });
 		res.send({ auth: true, token});
 	} catch (error) {
