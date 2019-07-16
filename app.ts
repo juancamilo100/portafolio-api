@@ -7,6 +7,7 @@ import errorHandler from "./src/middleware/errorHandler.middleware";
 import notFoundHandler from "./src/middleware/notFoundHandler.middleware";
 import { databaseInit } from "./src/mongo/initDb";
 import initDatabaseStreams from "./src/mongo/streams";
+import './src/prototypes'
 
 const app = express();
 

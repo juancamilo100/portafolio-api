@@ -9,10 +9,12 @@ import { IUser } from "../models/user";
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-        let users = await UserService.getAll();
-        users = users.map(user => {
-            return hidePassword(user);
-        });
+		let users = await UserService.getAll();
+		
+        users.forEach(user => {
+            hidePassword(user);
+		});
+		
         res.send(users);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
@@ -24,7 +26,7 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 
 	try {
 		const user = await UserService.get(req.params.id);
-		res.send(user);
+		res.send(hidePassword(user!));
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
@@ -33,16 +35,15 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 //TODO: Add authorization to this endpoint.  Only admin user should be able to perform this action
 const deleteUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedUser = await UserService.delete(req.params.id);
-		res.send(deletedUser);
+		const user = await UserService.delete(req.params.id);
+		res.send(hidePassword(user!));
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
 };
 
 const hidePassword = (user: IUser) => {
-    delete user.password;
-    return user;
+	return (user as object).clone().deleteProperty('password');
 }
 
 export {

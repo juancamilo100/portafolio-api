@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 
 class UserService implements IDataService<IUser> {
     public getAll() {
-        return User.find().exec();
+        return User.find().select(["-password"]).exec();
     }
 
     public get(id: string) {
