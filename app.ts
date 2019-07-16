@@ -6,13 +6,13 @@ import apiRoutes from "./src/api";
 import errorHandler from "./src/middleware/errorHandler.middleware";
 import notFoundHandler from "./src/middleware/notFoundHandler.middleware";
 import { databaseInit } from "./src/mongo/initDb";
-import initDatabaseStreams from "./src/mongo/streams";
+import databaseStreamsInit from "./src/mongo/streams";
 import './src/prototypes'
 
 const app = express();
 
 databaseInit();
-initDatabaseStreams();
+databaseStreamsInit();
 
 app.use(logger("dev"));
 app.use(express.json());
