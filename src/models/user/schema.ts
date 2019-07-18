@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const schema = new Schema({
+	_id: {
+		type: ObjectId,
+		required: true
+    },
 	email: {
 		type: String,
 		required: [true],
@@ -16,6 +20,6 @@ const schema = new Schema({
 		type: String,
 		required: [true],
 	}
-});
+}, { _id: false });
 
 export { schema };

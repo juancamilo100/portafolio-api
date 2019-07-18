@@ -4,15 +4,18 @@ import {
     RequestHandler,
     Response } from "express";
 import createError from "http-errors";
-import { User } from "../models/user";
+import UserService from "../services/user.service";
+import { IUser } from "../models/user";
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const users = req.query.portfolios === "show" ?
-			await User.find().select(["-password"]).populate("portfolios").exec() :
-			await User.find().select(["-password"]).exec();
-
-        res.send(users);
+        let users = await UserService.getAll();
+        
+        const response = users.map((user: IUser) => {
+            return hidePassword(user);
+        })
+		
+        res.send(response);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
@@ -22,8 +25,8 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 	if (req.userId !== req.params.id) { return next(createError(401, "Not authorized")); }
 
 	try {
-		const user = await User.findById(req.userId, { password: 0 }).populate("portfolios").exec();
-		res.send(user);
+		const user = await UserService.get(req.params.id);
+		res.send(hidePassword(user!));
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
@@ -32,12 +35,16 @@ const getUserById: RequestHandler = async (req: Request, res: Response, next: Ne
 //TODO: Add authorization to this endpoint.  Only admin user should be able to perform this action
 const deleteUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedUser = await User.findOneAndDelete({ _id: req.params.id }).exec();
-		res.send(deletedUser);
+		const user = await UserService.delete(req.params.id);
+		res.send(hidePassword(user!));
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
 };
+
+const hidePassword = (user: IUser) => {
+	return (user as object).deepClone().deleteProperty('password');
+}
 
 export {
     deleteUser,

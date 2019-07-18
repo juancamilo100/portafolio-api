@@ -1,12 +1,13 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
-import { IFund, Portfolio } from "../models/portfolio";
+import { IFund, IPortfolio } from "../models/portfolio";
+import PortfolioService from "../services/portfolio.service";
 
 // Need to add authorization to this route.  It should return all portfolios if it's an admin user
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const portfolios = await Portfolio.find({user: req.userId!}).exec();
-  res.send(portfolios);
+        const portfolios = await PortfolioService.getAllByFields({user: req.userId});
+        res.send(portfolios);
 	} catch (error) {
 		next(createError(500));
 	}
@@ -14,7 +15,7 @@ const getPortfolios: RequestHandler = async (req: Request, res: Response, next: 
 
 const getPortfolioById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const portfolio = await Portfolio.find({_id: req.params.id}).exec();
+		const portfolio = await PortfolioService.get(req.params.id);
 		res.send(portfolio);
 	} catch (error) {
 		next(createError(500));
@@ -27,24 +28,19 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 		return;
 	}
 
-	let portafolioTotal = 0;
-	req.body.funds.forEach((fund: IFund) => {
-		portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
-	});
-
-	if (portafolioTotal !== 100) {
+    if (!portfolioIsComplete(req.body.funds)) {
 		next(createError(400));
 		return;
 	}
 
 	try {
-		const newPortfolio = new Portfolio({
+        const newPortfolio = {
 			funds: req.body.funds,
 			name: req.body.name,
 			user: req.userId
-		});
-
-		const createdPortfolio = await newPortfolio.save();
+        } as IPortfolio
+        
+		const createdPortfolio = await PortfolioService.create(newPortfolio);
 		res.send(createdPortfolio);
 	} catch (error) {
 		next(createError(500));
@@ -53,13 +49,20 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 
 const updatePorfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const updatedPortfolio = await Portfolio.findOneAndUpdate(
-			{ _id: req.params.id },
-			req.body.updatedFields,
-			{ new: true }
-		).exec();
-
-		res.send(updatedPortfolio);
+		const portfolioToUpdate: IPortfolio = {
+			_id: req.params.id,
+			...req.body.updatedFields
+        } 
+        
+        if(portfolioToUpdate.funds) {
+            if (!portfolioIsComplete(portfolioToUpdate.funds)) {
+                next(createError(400));
+                return;
+            }
+        }
+		
+		const updatedPortfolio = await PortfolioService.update(portfolioToUpdate);
+		res.send({ _id: updatedPortfolio!._id });
 	} catch (error) {
 		next(createError(500));
 	}
@@ -67,12 +70,21 @@ const updatePorfolio: RequestHandler = async (req: Request, res: Response, next:
 
 const deletePortfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedPortfolio = await Portfolio.findByIdAndRemove(req.params.id).exec();
+		const deletedPortfolio = await PortfolioService.delete(req.params.id);
 		res.send(deletedPortfolio);
 	} catch (error) {
 		next(createError(500));
 	}
 };
+
+const portfolioIsComplete = (funds: IFund[]) => {
+    let portafolioTotal = 0;
+	funds.forEach((fund: IFund) => {
+		portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
+	});
+
+	return portafolioTotal === 100
+}
 
 export {
 	getPortfolios,
