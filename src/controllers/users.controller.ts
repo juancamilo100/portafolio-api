@@ -6,18 +6,14 @@ import {
 import createError from "http-errors";
 import UserService from "../services/user.service";
 import { IUser } from "../models/user";
-import '../prototypes/object.prototype'
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
         let users = await UserService.getAll();
         
-        const response = users.map((user) => {
+        const response = users.map((user: IUser) => {
             return hidePassword(user);
         })
-        // users.forEach(user => {
-        //     hidePassword(user);
-		// });
 		
         res.send(response);
 	} catch (error) {

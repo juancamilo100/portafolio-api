@@ -1,5 +1,6 @@
 import { IPortfolio, Portfolio } from "../../../models/portfolio";
 import { IUser, User } from "../../../models/user";
+import UserService from '../../../services/user.service'
 import { Types } from "mongoose";
 
 const operations = {
@@ -21,7 +22,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 
     switch (data.operationType) {
         case operations.INSERT:
-            user = await User.findById(data.fullDocument.user).exec();
+            user = await UserService.get(data.fullDocument.user);
 
             udpatedPortfolios = user!.portfolios.slice(0);
             udpatedPortfolios.push(data.documentKey._id.toString());
@@ -30,7 +31,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 			break;
 
 		case operations.DELETE:
-            const users = await User.find().exec();
+            const users = await UserService.getAll();
 
             user = users.find((user) => {
                 return user.portfolios.includes(data.documentKey._id.toHexString());
