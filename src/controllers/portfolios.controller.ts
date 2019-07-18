@@ -6,7 +6,7 @@ import PortfolioService from "../services/portfolio.service";
 // Need to add authorization to this route.  It should return all portfolios if it's an admin user
 const getPortfolios: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-        const portfolios = await PortfolioService.getAll();
+        const portfolios = await PortfolioService.getAllByFields({user: req.userId});
         res.send(portfolios);
 	} catch (error) {
 		next(createError(500));
@@ -28,12 +28,7 @@ const createPortfolio: RequestHandler = async (req: Request, res: Response, next
 		return;
 	}
 
-	let portafolioTotal = 0;
-	req.body.funds.forEach((fund: IFund) => {
-		portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
-	});
-
-	if (portafolioTotal !== 100) {
+    if (!portfolioIsComplete(req.body.funds)) {
 		next(createError(400));
 		return;
 	}
@@ -57,10 +52,17 @@ const updatePorfolio: RequestHandler = async (req: Request, res: Response, next:
 		const portfolioToUpdate: IPortfolio = {
 			_id: req.params.id,
 			...req.body.updatedFields
-		} 
+        } 
+        
+        if(portfolioToUpdate.funds) {
+            if (!portfolioIsComplete(portfolioToUpdate.funds)) {
+                next(createError(400));
+                return;
+            }
+        }
 		
 		const updatedPortfolio = await PortfolioService.update(portfolioToUpdate);
-		res.send(updatedPortfolio);
+		res.send({ _id: updatedPortfolio!._id });
 	} catch (error) {
 		next(createError(500));
 	}
@@ -74,6 +76,15 @@ const deletePortfolio: RequestHandler = async (req: Request, res: Response, next
 		next(createError(500));
 	}
 };
+
+const portfolioIsComplete = (funds: IFund[]) => {
+    let portafolioTotal = 0;
+	funds.forEach((fund: IFund) => {
+		portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
+	});
+
+	return portafolioTotal === 100
+}
 
 export {
 	getPortfolios,

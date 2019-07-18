@@ -3,22 +3,26 @@ import { IUser, User } from '../models/user';
 import { Types } from "mongoose";
 
 class UserService implements IDataService<IUser> {
-    public getAll() {
-        return User.find().select(["-password"]).exec();
-    }
-
     public get(id: string) {
         return User.findById(id).exec();
     }
 
-    public getByField(field: object) {
-        return User.findOne(field).exec();
+    public getByFields(fields: object) {
+        return User.findOne(fields).exec();
     }
     
     public getByEitherFields(fields: Array<object>) {
         return User.findOne({
             $or: fields
         }).lean().exec();
+    }
+
+    public getAll() {
+        return User.find().exec();
+    }
+
+    public getAllByFields(fields: object) {
+       return  User.find(fields).exec();
     }
 
     public create(entity: IUser) {

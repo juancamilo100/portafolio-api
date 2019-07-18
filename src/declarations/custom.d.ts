@@ -6,6 +6,6 @@ declare namespace Express {
 
 declare interface Object {
    [key: string]: any;
-   clone(): object;
+   deepClone(): object;
    deleteProperty(prop: string): object;
 }

@@ -6,16 +6,20 @@ import {
 import createError from "http-errors";
 import UserService from "../services/user.service";
 import { IUser } from "../models/user";
+import '../prototypes/object.prototype'
 
 const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		let users = await UserService.getAll();
+        let users = await UserService.getAll();
+        
+        const response = users.map((user) => {
+            return hidePassword(user);
+        })
+        // users.forEach(user => {
+        //     hidePassword(user);
+		// });
 		
-        users.forEach(user => {
-            hidePassword(user);
-		});
-		
-        res.send(users);
+        res.send(response);
 	} catch (error) {
 		return next(createError(500, "Something went wrong"));
 	}
@@ -43,7 +47,7 @@ const deleteUser: RequestHandler = async (req: Request, res: Response, next: Nex
 };
 
 const hidePassword = (user: IUser) => {
-	return (user as object).clone().deleteProperty('password');
+	return (user as object).deepClone().deleteProperty('password');
 }
 
 export {

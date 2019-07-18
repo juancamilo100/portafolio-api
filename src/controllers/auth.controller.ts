@@ -12,7 +12,7 @@ const loginUser: RequestHandler = async (req: Request, res: Response, next: Next
 	}
 
 	try {
-        const user =  await UserService.getByField({ username: req.body.username });
+        const user =  await UserService.getByFields({ username: req.body.username });
 		if (!user) { return next(createError(404, "User not found")); }
 
 		const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);

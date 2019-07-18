@@ -1,5 +1,5 @@
-if(!Object.prototype.clone) {
-    Object.prototype.clone = function () {
+if(!Object.prototype.deepClone) {
+    Object.prototype.deepClone = function() {
       return JSON.parse(JSON.stringify(this));
     };
 }

@@ -7,18 +7,22 @@ class PortfolioService implements IDataService<IPortfolio> {
         return Portfolio.find().exec();
     }
 
+    public getAllByFields(fields: object) {
+        return  Portfolio.find(fields).exec();
+    }
+
     public get(id: string) {
         return Portfolio.findById(id).exec();
     }
 
-    //TODO: Need to implement properly
-    public getByField(field: object) {
-        return Promise.resolve({} as IPortfolio)
+    public getByFields(fields: object) {
+        return Portfolio.findOne(fields).exec();
     }
 
-    //TODO: Need to implement properly
-    public getByEitherFields(field: object) {
-        return Promise.resolve({} as IPortfolio)
+    public getByEitherFields(fields: object) {
+        return Portfolio.findOne({
+            $or: fields
+        }).lean().exec();
     }
 
     public create(entity: IPortfolio) {
@@ -32,14 +36,13 @@ class PortfolioService implements IDataService<IPortfolio> {
 		return newPortfolio.save();
     }
 
-    public update(entity: IPortfolio) {
+    public async update(entity: IPortfolio) {
         const { _id, ...updatedFields } = entity;
 
         return Portfolio.findOneAndUpdate(
 			{ _id: _id },
-			updatedFields,
-			{ new: true }
-		).exec();
+			updatedFields
+        ).exec();
     }
 
     public delete(id: string) {
