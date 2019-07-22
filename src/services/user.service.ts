@@ -4,6 +4,8 @@ import { Types } from "mongoose";
 
 class UserService implements IDataService<IUser> {
     public get(id: string) {
+        console.log("SHOULD NOT BE HEREEE!!");
+        
         return User.findById(id).exec();
     }
 

@@ -22,6 +22,7 @@ class AuthController {
             if (!passwordIsValid) { return next(createError(401, "Unauthorized")); }
     
             const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: 3600 });
+            
             res.send({ auth: true, token});
         } catch (error) {
             return next(createError(500, "Something went wrong"));
