@@ -4,8 +4,8 @@ declare namespace Express {
     }
  }
 
-declare interface Object {
-   [key: string]: any;
-   deepClone(): object;
-   deleteProperty(prop: string): object;
-}
+// declare interface Object {
+//    [key: string]: any;
+//    deepClone(): object;
+//    deleteProperty(prop: string): object;
+// }

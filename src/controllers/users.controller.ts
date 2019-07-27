@@ -24,6 +24,7 @@ class UsersController {
         }
     }
 
+    //TODO: Add authorization to this endpoint.  Only admin user should be able to get any user by id
     public getUserById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
         if (req.userId !== req.params.id) { return next(createError(401, "Not authorized")); }
     
@@ -46,7 +47,9 @@ class UsersController {
     }
 
     private hidePassword = (user: IUser) => {
-        return (user as object).deepClone().deleteProperty('password');
+        const userWithoutPassword = JSON.parse(JSON.stringify(user));
+        delete userWithoutPassword.password
+        return userWithoutPassword;
     }
 }
 

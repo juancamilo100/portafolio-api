@@ -7,7 +7,7 @@ interface IUser extends Document {
 	username: string;
 	email: string;
 	password: string;
-	portfolios: Array<IPortfolio["_id"]>;
+    portfolios: Array<IPortfolio["_id"]>;
 }
 
 const User = model<IUser>("User", schema);
