@@ -4,11 +4,11 @@ import { Types } from "mongoose";
 
 class UserService implements IDataService<IUser> {
     public get(id: string) {
-        return User.findById(id).exec();
+        return User.findById(id).lean().exec();
     }
 
     public getByFields(fields: object) {
-        return User.findOne(fields).exec();
+        return User.findOne(fields).lean().exec();
     }
     
     public getByEitherFields(fields: Array<object>) {
@@ -18,7 +18,7 @@ class UserService implements IDataService<IUser> {
     }
 
     public getAll() {
-        return User.find().exec();
+        return User.find().lean().exec();
     }
 
     public getAllByFields(fields: object) {
