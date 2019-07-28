@@ -164,4 +164,147 @@ describe("Users Controller", () => {
         await portfolioController.createPortfolio(req, res, nextFunction);
         expect(res.send).toHaveBeenCalledWith(createdPortfolio);
     });
+
+    it("doesn't create a portfolio when its fund allocation doesn't amount to 100%", async () => { 
+        const currentUserId = '5cfafb0ccfe7761d47af53b3'
+        const newPortfolio = {
+            name: "SomePortfolio",
+            funds: [
+                {
+                    _id: "5d2fc59aae6b9816488dcf30",
+                    ticker: "VTI",
+                    portfolioPercentage: "80"
+                },
+                {
+                    _id: "5d2fc59aae6b9816488dcf31",
+                    ticker: "VXUS",
+                    portfolioPercentage: "10"
+                }
+            ],
+        }
+
+        const req: any = {
+            body: newPortfolio,
+            userId: currentUserId
+        }
+
+        await portfolioController.createPortfolio(req, res, nextFunction);
+        expect(nextFunction).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledTimes(0);
+    });
+
+    it("updates a portfolio", async () => { 
+        portfolioService.update = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios[0]);
+        });
+
+        const req: any = {
+            params: {
+                id: '1234',
+            },
+            body: { 
+                updatedFields: {
+                    name: "SomePortfolioToUpdate",
+                    funds: [
+                        {
+                            _id: "5d2fc59aae6b9816488dcf30",
+                            ticker: "VTI",
+                            portfolioPercentage: "100"
+                        }
+                    ]
+                }
+            }   
+        }
+
+        await portfolioController.updatePorfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+    });
+
+    it("updates a portfolio with partial changes", async () => { 
+        portfolioService.update = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios[0]);
+        });
+
+        let req: any = {
+            params: {
+                id: '1234',
+            },
+            body: { 
+                updatedFields: {
+                    name: "SomePortfolioToUpdate",
+                }
+            }   
+        }
+
+        await portfolioController.updatePorfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+        
+        req = {
+            params: {
+                id: '1234',
+            },
+            body: { 
+                updatedFields: {
+                    funds: [
+                        {
+                            _id: "5d2fc59aae6b9816488dcf30",
+                            ticker: "VXUS",
+                            portfolioPercentage: "100"
+                        }
+                    ]
+                }
+            }   
+        }
+
+        await portfolioController.updatePorfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+    });
+
+    it("doesn't update a portfolio if new fund allocation doesn't add up to 100%", async () => { 
+        portfolioService.update = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios[0]);
+        });
+
+        const req: any = {
+            params: {
+                id: '1234',
+            },
+            body: { 
+                updatedFields: {
+                    name: "SomePortfolioToUpdate",
+                    funds: [
+                        {
+                            _id: "5d2fc59aae6b9816488dcf30",
+                            ticker: "VTI",
+                            portfolioPercentage: "80"
+                        },
+                        {
+                            _id: "5d2fc59aae6b9816488dcf30",
+                            ticker: "VXUS",
+                            portfolioPercentage: "10"
+                        }
+                    ]
+                }
+            }   
+        }
+
+        await portfolioController.updatePorfolio(req, res, nextFunction);
+        expect(nextFunction).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledTimes(0);
+    });
+
+    it("deletes a portfolio by id", async () => { 
+        portfolioService.delete = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios[0]);
+        });
+
+        const req: any = {
+            params: {
+                id: portfolios[0]._id,
+            }
+        }
+
+        await portfolioController.deletePortfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith(portfolios[0]);
+    });
 });
