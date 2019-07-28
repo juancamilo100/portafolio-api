@@ -27,7 +27,7 @@ class PortfoliosController {
 
     public createPortfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
         if (!req.body.funds) {
-            next(createError(500));
+            next(createError(400, "Incomplete request"));
             return;
         }
     
@@ -81,12 +81,18 @@ class PortfoliosController {
     }
 
     private portfolioIsComplete = (funds: IFund[]) => {
-        let portafolioTotal = 0;
-        funds.forEach((fund: IFund) => {
-            portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
-        });
-    
-        return portafolioTotal === 100
+        if(funds.length > 0) {
+            let portafolioTotal = 0;
+
+            funds.forEach((fund: IFund) => {
+                portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
+            });
+
+            return portafolioTotal === 100
+        }
+        else {
+            return true;
+        }
     }
 }
 

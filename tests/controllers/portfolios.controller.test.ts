@@ -1,5 +1,6 @@
 import PortfoliosController from '../../src/controllers/portfolios.controller'
 import portfolioService from '../../src/services/portfolio.service'
+import { IPortfolio } from '../../src/models/portfolio';
 
 describe("Users Controller", () => {  
     let portfolioController: PortfoliosController;
@@ -39,7 +40,7 @@ describe("Users Controller", () => {
                 }
             ],
             name: "AnotherPortfolio",
-            user: "123fb0c1234d47af89765"
+            user: "5cfafb0ccfe7761d47af53b3"
         }
     ];
 
@@ -55,49 +56,112 @@ describe("Users Controller", () => {
         jest.resetAllMocks();
     });
     
-    it("gets all users and hides their passwords", async () => { 
-        portfolioService.getAll = jest.fn().mockImplementation(() => {
-            return Promise.resolve(users);
+    it("gets all portfolios for the current user", async () => { 
+        portfolioService.getAllByFields = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios);
         });
 
-        const req: any = {
-            body: {
-                username: "someuser",
-                password: "somepassword"
-            }
-        };
+        const req: any = jest.fn();
         
-        await usersController.getUsers(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith(usersWithoutPassword);
+        await portfolioController.getPortfolios(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith(portfolios);
     });
 
-    it("gets user by id and hides password", async () => {  
-        const req: any = {
-            userId: '1234',
-            params: {
-                id: '1234'
-            }
-        };
-
-        userService.get = jest.fn().mockImplementation((id: string) => {
-            return Promise.resolve(users[0]);
+    it("gets a portfolio by id", async () => { 
+        portfolioService.get = jest.fn().mockImplementation(() => {
+            return Promise.resolve(portfolios[0]);
         });
 
-        await usersController.getUserById(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith(usersWithoutPassword[0]);
+        const req: any = {
+            params: {
+                id: '1234',
+            }
+        }
+
+        await portfolioController.getPortfolioById(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith(portfolios[0]);
     });
 
-    it("doesn't allow non admin users to fetch other user's data", async () => { 
+    it("creates a new portfolio under the current user's id", async () => { 
+        const currentUserId = '5cfafb0ccfe7761d47af53b3'
+        const newPortfolio = {
+            funds: [
+                {
+                    _id: "5d2fc59aae6b9816488dcf30",
+                    ticker: "VTI",
+                    portfolioPercentage: "90"
+                },
+                {
+                    _id: "5d2fc59aae6b9816488dcf31",
+                    ticker: "VXUS",
+                    portfolioPercentage: "10"
+                }
+            ],
+            name: "SomePortfolio",
+        }
+        
         const req: any = {
-            userId: '7890',
-            params: {
-                id: '1234'
-            }
-        };
+            body: newPortfolio,
+            userId: currentUserId
+        }
 
-        await usersController.getUserById(req, res, nextFunction);
+        const createdPortfolio = {
+            funds: newPortfolio.funds,
+            name: newPortfolio.name,
+            user: currentUserId
+        }
+        
+        portfolioService.create = jest.fn().mockImplementation((portfolio: IPortfolio) => {
+            return Promise.resolve(portfolio);
+        });
 
+        await portfolioController.createPortfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith(createdPortfolio);
+    });
+
+    it("doesn't create a new portfolio with undefined funds field", async () => { 
+        const currentUserId = '5cfafb0ccfe7761d47af53b3'
+        const newPortfolio = {
+            name: "SomePortfolio",
+        }
+
+        const req: any = {
+            body: newPortfolio,
+            userId: currentUserId
+        }
+
+        portfolioService.create = jest.fn().mockImplementation((portfolio: IPortfolio) => {
+            return Promise.resolve(portfolio);
+        });
+
+        await portfolioController.createPortfolio(req, res, nextFunction);
         expect(nextFunction).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledTimes(0);
+    });
+
+    it("creates a portfolio with no funds", async () => { 
+        const currentUserId = '5cfafb0ccfe7761d47af53b3'
+        const newPortfolio = {
+            name: "SomePortfolio",
+            funds: []
+        }
+
+        const req: any = {
+            body: newPortfolio,
+            userId: currentUserId
+        }
+
+        const createdPortfolio = {
+            funds: newPortfolio.funds,
+            name: newPortfolio.name,
+            user: currentUserId
+        }
+
+        portfolioService.create = jest.fn().mockImplementation((portfolio: IPortfolio) => {
+            return Promise.resolve(portfolio);
+        });
+
+        await portfolioController.createPortfolio(req, res, nextFunction);
+        expect(res.send).toHaveBeenCalledWith(createdPortfolio);
     });
 });
