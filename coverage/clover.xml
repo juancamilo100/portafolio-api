@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1564243374064" clover="3.2.0">
-  <project timestamp="1564243374064" name="All files">
-    <metrics statements="84" coveredstatements="64" conditionals="16" coveredconditionals="15" methods="23" coveredmethods="13" elements="123" coveredelements="92" complexity="0" loc="84" ncloc="84" packages="4" files="7" classes="7"/>
+<coverage generated="1564276345779" clover="3.2.0">
+  <project timestamp="1564276345779" name="All files">
+    <metrics statements="84" coveredstatements="67" conditionals="16" coveredconditionals="15" methods="23" coveredmethods="15" elements="123" coveredelements="97" complexity="0" loc="84" ncloc="84" packages="4" files="7" classes="7"/>
     <package name="src">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="config.ts" path="/Users/juanespinosa/git/portafolio-api/src/config.ts">
@@ -11,7 +11,7 @@
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="58" coveredstatements="48" conditionals="16" coveredconditionals="15" methods="15" coveredmethods="13"/>
+      <metrics statements="58" coveredstatements="51" conditionals="16" coveredconditionals="15" methods="15" coveredmethods="15"/>
       <file name="auth.controller.ts" path="/Users/juanespinosa/git/portafolio-api/src/controllers/auth.controller.ts">
         <metrics statements="33" coveredstatements="29" conditionals="14" coveredconditionals="13" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
@@ -49,7 +49,7 @@
         <line num="70" count="1" type="stmt"/>
       </file>
       <file name="users.controller.ts" path="/Users/juanespinosa/git/portafolio-api/src/controllers/users.controller.ts">
-        <metrics statements="25" coveredstatements="19" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="7"/>
+        <metrics statements="25" coveredstatements="22" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
         <line num="6" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
@@ -66,14 +66,14 @@
         <line num="33" count="1" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
-        <line num="50" count="3" type="stmt"/>
-        <line num="51" count="3" type="stmt"/>
-        <line num="52" count="3" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
         <line num="56" count="1" type="stmt"/>
       </file>
     </package>

@@ -64,7 +64,7 @@ describe("Users Controller", () => {
             expect(res.send).toHaveBeenCalledWith(usersWithoutPassword);
         });
 
-        it("gets user by id ", async () => {  
+        it("gets user by id and hides password", async () => {  
             const req: any = {
                 userId: '1234',
                 params: {
@@ -89,9 +89,25 @@ describe("Users Controller", () => {
             };
 
             await usersController.getUserById(req, res, nextFunction);
-            
+
             expect(nextFunction).toHaveBeenCalled();
             expect(res.send).toHaveBeenCalledTimes(0);
+        });
+
+        it("deletes a user and returns deleted user with password hidden", async () => { 
+            const req: any = {
+                userId: '1234',
+                params: {
+                    id: '1234'
+                }
+            };
+
+            userService.delete = jest.fn().mockImplementation((id: string) => {
+                return Promise.resolve(users[0]);
+            });
+
+            await usersController.deleteUser(req, res, nextFunction);
+            expect(res.send).toHaveBeenCalledWith(usersWithoutPassword[0]);
         });
     });
 });
