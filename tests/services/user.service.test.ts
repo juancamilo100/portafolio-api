@@ -2,12 +2,13 @@ import userService from '../../src/services/user.service'
 import { IUser } from '../../src/models/user'
 import databaseManager from '../../src/mongo/databaseManager'
 import { populateUsersInTestDb, cleanupDb } from '../utils/dbPopulation'
-import { testUsers } from '../utils/testData'
+import { testUsers } from '../utils/mockData'
+import { TEST_DB_URL, TEST_DB_NAME } from '../config'
 
 describe("Users Service", () => {  
     const mongoDatabase = new databaseManager(
-        "mongodb://localhost:27017/",
-        "testdb"
+        TEST_DB_URL,
+        TEST_DB_NAME
     );
 
     beforeAll(async (done) => {
@@ -17,12 +18,9 @@ describe("Users Service", () => {
     });
 
     beforeEach(() => {
-        // user = new CommentModel(testData.normalComment);
-        // return comment.save();
     });
 
     afterEach(() => {
-        // return CommentModel.removeComments();
     });
 
     afterAll(async (done) => {
@@ -30,6 +28,29 @@ describe("Users Service", () => {
         await mongoDatabase.disconnect();
         done();
     });
+
+    it("gets a user by id", async (done) => { 
+        let user = await userService.get(testUsers[0]._id.toHexString());
+        expect(user).toEqual(testUsers[0]);
+        done();
+    });
+
+    it("gets a user by one AND more fields", async (done) => {
+        let user = await userService.getByFields({
+            username: testUsers[0].username,
+            email: 'randomemail'
+        });
+
+        expect(user).toEqual(null);
+
+        user = await userService.getByFields({
+            username: testUsers[0].username,
+            email: testUsers[0].email
+        });
+
+        expect(user).toEqual(testUsers[0]);
+        done();
+     });
 
     it("gets all users", async (done) => {
         const users = await userService.getAll();
@@ -42,4 +63,34 @@ describe("Users Service", () => {
         });
         done();
      });
+
+    it("gets all users by one AND more fields", async (done) => { 
+        const users = await userService.getAllByFields({username: testUsers[1].username});
+        expect(users.length).toEqual(1);
+        expect(users[0].email).toEqual(testUsers[1].email);
+        done();
+    });
+
+    it("gets a user by one OR more fields", async (done) => { 
+        let user = await userService.getByEitherFields(
+            [
+                { username: testUsers[0].username },
+                { email: 'randomemail' }
+            ]);
+
+        expect(user).toEqual(testUsers[0]);
+
+        user = await userService.getByEitherFields(
+            [
+                { username: 'randomusername' },
+                { email: testUsers[1].email }
+            ]);
+
+        expect(user).toEqual(testUsers[1]);
+        done();
+    });
+
+    it("gets a user by id", async (done) => { 
+        done();
+    });
 });

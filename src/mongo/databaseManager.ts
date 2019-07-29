@@ -17,10 +17,6 @@ class DatabaseManager {
         } catch (error) {
             console.log(`Error when trying to connect to ${this._databaseName} at ${this._connectionString}`);
         }
-
-		// mongoose.connection.on("connected", () => {
-		// 	console.log(`Connection successful to ${this._databaseName} at ${this._connectionString}`);
-		// });
     }
     
     public async disconnect() {

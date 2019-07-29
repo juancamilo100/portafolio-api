@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
+        "startdb": "mongod --replSet 'rs0'",
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
         "build": "tsc",
         "prestart": "npm run build",
