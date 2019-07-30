@@ -62,13 +62,6 @@ describe("Users Service", () => {
             expect(user.portfolios).toEqual(testUsers[index].portfolios);
         });
         done();
-     });
-
-    it("gets all users by one AND more fields", async (done) => { 
-        const users = await userService.getAllByFields({username: testUsers[1].username});
-        expect(users.length).toEqual(1);
-        expect(users[0].email).toEqual(testUsers[1].email);
-        done();
     });
 
     it("gets a user by one OR more fields", async (done) => { 
@@ -90,7 +83,60 @@ describe("Users Service", () => {
         done();
     });
 
-    it("gets a user by id", async (done) => { 
+    it("gets all users by one AND more fields", async (done) => { 
+        const users = await userService.getAllByFields({username: testUsers[1].username});
+        expect(users.length).toEqual(1);
+        expect(users[0].email).toEqual(testUsers[1].email);
+        done();
+    });
+    
+    it("creates a user", async (done) => { 
+        const userToCreate = {
+            username: 'testusername',
+            password: 'testpassword',
+			email: 'testemail@email.com',
+        }
+
+        const user = await userService.create(userToCreate as IUser);
+
+        expect(user.username).toEqual(userToCreate.username);
+        expect(user.password).toEqual(userToCreate.password);
+        expect(user.email).toEqual(userToCreate.email);
+
+        const userFromDb = await userService.get(user._id);
+
+        expect(userFromDb.username).toEqual(userToCreate.username);
+        expect(userFromDb.password).toEqual(userToCreate.password);
+        expect(userFromDb.email).toEqual(userToCreate.email);
+
+        done();
+    });
+
+    it("updates a user", async (done) => { 
+        const userToUpdate = {
+            _id: testUsers[0]._id,
+            username: 'newrandomusername',
+            email: 'newrandomemail@email.com'
+        } as unknown as IUser
+
+        await userService.update(userToUpdate);
+        const updatedUser = await userService.get(testUsers[0]._id.toHexString());
+
+        expect(updatedUser.username).not.toEqual(testUsers[0].username);
+        expect(updatedUser.email).not.toEqual(testUsers[0].email);
+
+        expect(updatedUser.username).toEqual('newrandomusername');
+        expect(updatedUser.email).toEqual('newrandomemail@email.com');
+
+        expect(updatedUser.password).toEqual(testUsers[0].password);
+        done();
+    });
+    
+    it("deletes a user", async (done) => { 
+        await userService.delete(testUsers[0]._id.toHexString());
+
+        const deletedUser = await userService.get(testUsers[0]._id.toHexString());
+        expect(deletedUser).toBeNull();
         done();
     });
 });
