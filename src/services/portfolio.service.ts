@@ -4,19 +4,19 @@ import { Types } from "mongoose";
 
 class PortfolioService implements IDataService<IPortfolio> {
     public getAll() {
-        return Portfolio.find().exec();
+        return Portfolio.find().lean().exec();
     }
 
     public getAllByFields(fields: object) {
-        return  Portfolio.find(fields).exec();
+        return  Portfolio.find(fields).lean().exec();
     }
 
     public get(id: string) {
-        return Portfolio.findById(id).exec();
+        return Portfolio.findById(id).lean().exec();
     }
 
     public getByFields(fields: object) {
-        return Portfolio.findOne(fields).exec();
+        return Portfolio.findOne(fields).lean().exec();
     }
 
     public getByEitherFields(fields: object) {
@@ -42,7 +42,7 @@ class PortfolioService implements IDataService<IPortfolio> {
         return Portfolio.findOneAndUpdate(
 			{ _id: _id },
 			updatedFields
-        ).exec();
+        ).lean().exec();
     }
 
     public delete(id: string) {

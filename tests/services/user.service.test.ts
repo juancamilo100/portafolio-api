@@ -17,12 +17,6 @@ describe("Users Service", () => {
         done();
     });
 
-    beforeEach(() => {
-    });
-
-    afterEach(() => {
-    });
-
     afterAll(async (done) => {
         await cleanupDb();
         await mongoDatabase.disconnect();

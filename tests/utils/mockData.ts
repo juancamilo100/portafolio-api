@@ -1,4 +1,4 @@
-import { Types } from mongoose;
+import { Types } from 'mongoose';
 
 const testUsers = [
     {
@@ -32,12 +32,12 @@ const testPortfolios = [
             {
                 _id: Types.ObjectId(),
                 ticker: "VTI",
-                portfolioPercentage: 80
+                portfolioPercentage: "80"
             },
             {
                 _id: Types.ObjectId(),
                 ticker: "VXUS",
-                portfolioPercentage: 20
+                portfolioPercentage: "20"
             }
         ],
         user: Types.ObjectId(),
@@ -49,12 +49,12 @@ const testPortfolios = [
             {
                 _id: Types.ObjectId(),
                 ticker: "SCHD",
-                portfolioPercentage: 70
+                portfolioPercentage: "70"
             },
             {
                 _id: Types.ObjectId(),
                 ticker: "SCHX",
-                portfolioPercentage: 30
+                portfolioPercentage: "30"
             }
         ],
         user: Types.ObjectId(),
