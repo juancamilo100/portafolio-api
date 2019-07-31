@@ -122,22 +122,30 @@ describe("Portfolio Service", () => {
     });
 
     it("updates a user", async (done) => { 
-        const userToUpdate = {
-            _id: testUsers[0]._id,
-            username: 'newrandomusername',
-            email: 'newrandomemail@email.com'
-        } as unknown as IUser
+        const newUser = Types.ObjectId();
+        const portfolioToUpdate = {
+            _id: testPortfolios[0]._id,
+            name: 'newrandomusername',
+            user: newUser
+        } as unknown as IPortfolio
 
-        await userService.update(userToUpdate);
-        const updatedUser = await userService.get(testUsers[0]._id.toHexString());
+        await portfolioService.update(portfolioToUpdate);
+        const updatedPortfolio = await portfolioService.get(testPortfolios[0]._id.toHexString());
 
-        expect(updatedUser.username).not.toEqual(testUsers[0].username);
-        expect(updatedUser.email).not.toEqual(testUsers[0].email);
+        expect(updatedPortfolio.name).not.toEqual(testPortfolios[0].name);
+        expect(updatedPortfolio.user).not.toEqual(testPortfolios[0].user);
 
-        expect(updatedUser.username).toEqual('newrandomusername');
-        expect(updatedUser.email).toEqual('newrandomemail@email.com');
+        expect(updatedPortfolio.name).toEqual('newrandomusername');
+        expect(updatedPortfolio.user).toEqual(newUser);
+        expect(updatedPortfolio.funds).toEqual(testPortfolios[0].funds);
+        done();
+    });
 
-        expect(updatedUser.password).toEqual(testUsers[0].password);
+    it("deletes a portfolio", async (done) => { 
+        await portfolioService.delete(testPortfolios[0]._id.toHexString());
+
+        const deletedUser = await portfolioService.get(testPortfolios[0]._id.toHexString());
+        expect(deletedUser).toBeNull();
         done();
     });
 });

@@ -121,8 +121,8 @@ describe("Users Service", () => {
 
         expect(updatedUser.username).toEqual('newrandomusername');
         expect(updatedUser.email).toEqual('newrandomemail@email.com');
-
         expect(updatedUser.password).toEqual(testUsers[0].password);
+        
         done();
     });
     
