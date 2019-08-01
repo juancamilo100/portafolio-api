@@ -6,21 +6,23 @@
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
         "build": "tsc",
         "prestart": "npm run build",
-        "serve": "nodemon ./bin/www",
-        "start": "node ./build/bin/www"
+        "serve": "NODE_ENV=development && nodemon ./bin/www",
+        "start": "node ./build/bin/www",
+        "test": "jest --coverage --runInBand",
+        "test:watch": "jest --coverage --runInBand --watch",
+        "pretty": "tslint --fix -c tslint.json -p tsconfig.json"
     },
     "dependencies": {
-      "bcryptjs": "^2.4.3",
-      "compression": "^1.7.4",
-      "cookie-parser": "~1.4.3",
-      "debug": "~2.6.9",
-      "express": "~4.16.0",
-      "http-errors": "~1.6.2",
-      "jsonwebtoken": "^8.5.1",
-      "mongoose": "^5.5.9",
-      "morgan": "~1.9.0",
-      "tslint": "^5.18.0",
-      "typescript": "^3.5.2"
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.7.4",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.9",
+        "express": "~4.16.0",
+        "http-errors": "~1.6.2",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.5.9",
+        "morgan": "~1.9.0",
+        "typescript": "^3.5.2"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
@@ -29,9 +31,16 @@
         "@types/debug": "^4.1.4",
         "@types/express": "^4.17.0",
         "@types/http-errors": "^1.6.1",
+        "@types/jest": "^24.0.15",
         "@types/jsonwebtoken": "^8.3.2",
         "@types/mongoose": "^5.5.6",
         "@types/morgan": "^1.7.35",
-        "nodemon": "^1.19.0"
+        "@types/supertest": "^2.0.8",
+        "jest": "^24.8.0",
+        "mongodb-memory-server": "^5.1.9",
+        "nodemon": "^1.19.0",
+        "supertest": "^4.0.2",
+        "ts-jest": "^24.0.2",
+        "tslint": "^5.18.0"
     }
 }

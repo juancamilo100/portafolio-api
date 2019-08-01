@@ -3,11 +3,11 @@ import { IPortfolio } from "../portfolio/";
 import { schema } from "./schema";
 
 interface IUser extends Document {
-	_id: string
+	_id: string;
 	username: string;
 	email: string;
 	password: string;
-	portfolios: Array<IPortfolio["_id"]>;
+    portfolios: Array<IPortfolio["_id"]>;
 }
 
 const User = model<IUser>("User", schema);

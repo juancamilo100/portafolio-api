@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
+import IDataService from "../interfaces/dataService.interface";
 import { IFund, IPortfolio } from "../models/portfolio";
-import IDataService from '../interfaces/dataService.interface';
 
 class PortfoliosController {
     constructor(private portfolioService: IDataService<IPortfolio>) {}
@@ -14,8 +14,8 @@ class PortfoliosController {
         } catch (error) {
             next(createError(500));
         }
-    }   
-    
+    }
+
     public getPortfolioById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const portfolio = await this.portfolioService.get(req.params.id);
@@ -27,22 +27,22 @@ class PortfoliosController {
 
     public createPortfolio: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
         if (!req.body.funds) {
-            next(createError(500));
+            next(createError(400, "Incomplete request"));
             return;
         }
-    
+
         if (!this.portfolioIsComplete(req.body.funds)) {
             next(createError(400));
             return;
         }
-    
+
         try {
             const newPortfolio = {
                 funds: req.body.funds,
                 name: req.body.name,
                 user: req.userId
-            } as IPortfolio
-            
+            } as IPortfolio;
+
             const createdPortfolio = await this.portfolioService.create(newPortfolio);
             res.send(createdPortfolio);
         } catch (error) {
@@ -55,15 +55,15 @@ class PortfoliosController {
             const portfolioToUpdate: IPortfolio = {
                 _id: req.params.id,
                 ...req.body.updatedFields
-            } 
-            
-            if(portfolioToUpdate.funds) {
+            };
+
+            if (portfolioToUpdate.funds) {
                 if (!this.portfolioIsComplete(portfolioToUpdate.funds)) {
                     next(createError(400));
                     return;
                 }
             }
-            
+
             const updatedPortfolio = await this.portfolioService.update(portfolioToUpdate);
             res.send({ _id: updatedPortfolio!._id });
         } catch (error) {
@@ -81,13 +81,18 @@ class PortfoliosController {
     }
 
     private portfolioIsComplete = (funds: IFund[]) => {
-        let portafolioTotal = 0;
-        funds.forEach((fund: IFund) => {
-            portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
-        });
-    
-        return portafolioTotal === 100
+        if (funds.length > 0) {
+            let portafolioTotal = 0;
+
+            funds.forEach((fund: IFund) => {
+                portafolioTotal += Number.parseInt(fund.portfolioPercentage, 10);
+            });
+
+            return portafolioTotal === 100;
+        }
+
+        return true;
     }
 }
 
-export default PortfoliosController
+export default PortfoliosController;

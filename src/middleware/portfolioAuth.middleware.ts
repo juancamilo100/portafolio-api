@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
-import PortfolioService from '../services/portfolio.service'
+import PortfolioService from "../services/portfolio.service";
 
 const authorizeUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -10,7 +10,7 @@ const authorizeUser: RequestHandler = async (req: Request, res: Response, next: 
         return next(createError(500));
     }
 
-	next();
+	   next();
 };
 
 export { authorizeUser };
