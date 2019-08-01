@@ -1,6 +1,6 @@
 import AuthController from '../../src/controllers/auth.controller'
-import bcrypt from "bcryptjs";
 import userService from '../../src/services/user.service'
+import bcrypt from "bcryptjs";
 
 describe("Auth Controller", () => {  
     let authController: AuthController;
@@ -20,6 +20,7 @@ describe("Auth Controller", () => {
                     password: bcrypt.hashSync("somepassword")
                 };
             });
+            
             const nextFunction = jest.fn();
 
             const req: any = {
@@ -63,6 +64,7 @@ describe("Auth Controller", () => {
                     password: bcrypt.hashSync("wrongpassword")
                 };
             });
+
             const nextFunction = jest.fn();
 
             const req: any = {

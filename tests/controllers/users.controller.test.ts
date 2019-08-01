@@ -1,39 +1,11 @@
 import UsersController from '../../src/controllers/users.controller'
 import userService from '../../src/services/user.service'
-import bcrypt from "bcryptjs";
+import { testUsers, testUsersWithoutPassword } from '../utils/mockData'
 
 describe("Users Controller", () => {  
     let usersController: UsersController;
     let res: any;
     let nextFunction: any;
-
-    const users = [
-        {
-            _id: '12345',
-            username: "someuser",
-            password: bcrypt.hashSync("somepassword"),
-            email: "someemail"
-        },
-        {
-            _id: '46788',
-            username: "anotheruser",
-            password: bcrypt.hashSync("anotherpassword"),
-            email: "anotheremail"
-        }
-    ];
-
-    const usersWithoutPassword = [
-        {
-            _id: '12345',
-            username: "someuser",
-            email: "someemail"
-        },
-        {
-            _id: '46788',
-            username: "anotheruser",
-            email: "anotheremail"
-        }
-    ]
     
     beforeAll(() => {
         usersController = new UsersController(userService);
@@ -50,7 +22,7 @@ describe("Users Controller", () => {
     describe("Get User", () => {
         it("gets all users and hides their passwords", async () => { 
             userService.getAll = jest.fn().mockImplementation(() => {
-                return Promise.resolve(users);
+                return Promise.resolve(testUsers);
             });
 
             const req: any = {
@@ -61,7 +33,7 @@ describe("Users Controller", () => {
             };
             
             await usersController.getUsers(req, res, nextFunction);
-            expect(res.send).toHaveBeenCalledWith(usersWithoutPassword);
+            expect(res.send).toHaveBeenCalledWith(testUsersWithoutPassword);
         });
 
         it("gets user by id and hides password", async () => {  
@@ -73,11 +45,11 @@ describe("Users Controller", () => {
             };
 
             userService.get = jest.fn().mockImplementation((id: string) => {
-                return Promise.resolve(users[0]);
+                return Promise.resolve(testUsers[0]);
             });
 
             await usersController.getUserById(req, res, nextFunction);
-            expect(res.send).toHaveBeenCalledWith(usersWithoutPassword[0]);
+            expect(res.send).toHaveBeenCalledWith(testUsersWithoutPassword[0]);
         });
 
         it("doesn't allow non admin users to fetch other user's data", async () => { 
@@ -103,11 +75,11 @@ describe("Users Controller", () => {
             };
 
             userService.delete = jest.fn().mockImplementation((id: string) => {
-                return Promise.resolve(users[0]);
+                return Promise.resolve(testUsers[0]);
             });
 
             await usersController.deleteUser(req, res, nextFunction);
-            expect(res.send).toHaveBeenCalledWith(usersWithoutPassword[0]);
+            expect(res.send).toHaveBeenCalledWith(testUsersWithoutPassword[0]);
         });
     });
 });

@@ -1,6 +1,6 @@
 import portfolioService from '../../src/services/portfolio.service'
 import { IPortfolio } from '../../src/models/portfolio'
-import databaseManager from '../../src/mongo/databaseManager'
+import DatabaseManager from '../../src/mongo/databaseManager'
 import { populatePortfoliosInTestDb, cleanupDb } from '../utils/dbPopulation'
 import { testPortfolios } from '../utils/mockData'
 import { Types } from 'mongoose';
@@ -8,13 +8,13 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe("Portfolio Service", () => {  
     const mongod = new MongoMemoryServer();
-    let mongoDatabase: databaseManager;
+    let mongoDatabase: DatabaseManager;
         
     beforeAll(async (done) => {
         const uri = await mongod.getConnectionString();
         const dbName = await mongod.getDbName();
 
-        mongoDatabase = new databaseManager(
+        mongoDatabase = new DatabaseManager(
             uri,
             dbName
         );

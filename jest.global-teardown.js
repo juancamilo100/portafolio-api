@@ -1,5 +1,3 @@
-const globalTeardown = () => {
-
-}
+const globalTeardown = () => {}
 
 module.exports = globalTeardown;

@@ -33,7 +33,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 		case operations.DELETE:
             const users = await UserService.getAll();
 
-            user = users.find((user) => {
+            user = users.find((user: IUser) => {
                 return user.portfolios.includes(data.documentKey._id.toHexString());
             });
 

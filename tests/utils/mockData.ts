@@ -24,6 +24,11 @@ const testUsers = [
     }
 ]
 
+const testUsersWithoutPassword = JSON.parse(JSON.stringify(testUsers))
+testUsersWithoutPassword.forEach((user: any) => {
+    delete user.password;
+});
+
 const testPortfolios = [
     {
         _id: Types.ObjectId(),
@@ -61,4 +66,8 @@ const testPortfolios = [
     }
 ];
 
-export { testUsers, testPortfolios }
+export { 
+    testUsers, 
+    testPortfolios,
+    testUsersWithoutPassword
+ }

@@ -3,7 +3,6 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "startdb": "mongod --replSet 'rs0'",
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
         "build": "tsc",
         "prestart": "npm run build",
@@ -22,7 +21,6 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.5.9",
         "morgan": "~1.9.0",
-        "tslint": "^5.18.0",
         "typescript": "^3.5.2"
     },
     "devDependencies": {
@@ -41,6 +39,7 @@
         "mongodb-memory-server": "^5.1.9",
         "nodemon": "^1.19.0",
         "supertest": "^4.0.2",
-        "ts-jest": "^24.0.2"
+        "ts-jest": "^24.0.2",
+        "tslint": "^5.18.0"
     }
 }

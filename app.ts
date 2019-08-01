@@ -5,7 +5,6 @@ import logger from "morgan";
 import apiRoutes from "./src/api";
 import errorHandler from "./src/middleware/errorHandler.middleware";
 import notFoundHandler from "./src/middleware/notFoundHandler.middleware";
-import './src/prototypes'
 
 const app = express();
 

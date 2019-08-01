@@ -1,48 +1,12 @@
 import PortfoliosController from '../../src/controllers/portfolios.controller'
 import portfolioService from '../../src/services/portfolio.service'
 import { IPortfolio } from '../../src/models/portfolio';
+import { testPortfolios } from '../utils/mockData'
 
 describe("Users Controller", () => {  
     let portfolioController: PortfoliosController;
     let res: any;
     let nextFunction: any;
-
-    const portfolios = [
-        {
-            _id: "1234",
-            funds: [
-                {
-                    _id: "5d2fc59aae6b9816488dcf30",
-                    ticker: "SCDH",
-                    portfolioPercentage: "92"
-                },
-                {
-                    _id: "5d2fc59aae6b9816488dcf31",
-                    ticker: "STI",
-                    portfolioPercentage: "8"
-                }
-            ],
-            name: "SomePortfolio",
-            user: "5cfafb0ccfe7761d47af53b3"
-        },
-        {
-            _id: "7890",
-            funds: [
-                {
-                    _id: "5d2fc59aae6b9816488dcf36",
-                    ticker: "SCDH",
-                    portfolioPercentage: "92"
-                },
-                {
-                    _id: "5d2fc59aae6b9816488dcf35",
-                    ticker: "STI",
-                    portfolioPercentage: "8"
-                }
-            ],
-            name: "AnotherPortfolio",
-            user: "5cfafb0ccfe7761d47af53b3"
-        }
-    ];
 
     beforeAll(() => {
         portfolioController = new PortfoliosController(portfolioService);
@@ -58,18 +22,18 @@ describe("Users Controller", () => {
     
     it("gets all portfolios for the current user", async () => { 
         portfolioService.getAllByFields = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios);
+            return Promise.resolve(testPortfolios);
         });
 
         const req: any = jest.fn();
         
         await portfolioController.getPortfolios(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith(portfolios);
+        expect(res.send).toHaveBeenCalledWith(testPortfolios);
     });
 
     it("gets a portfolio by id", async () => { 
         portfolioService.get = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios[0]);
+            return Promise.resolve(testPortfolios[0]);
         });
 
         const req: any = {
@@ -79,7 +43,7 @@ describe("Users Controller", () => {
         }
 
         await portfolioController.getPortfolioById(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith(portfolios[0]);
+        expect(res.send).toHaveBeenCalledWith(testPortfolios[0]);
     });
 
     it("creates a new portfolio under the current user's id", async () => { 
@@ -195,7 +159,7 @@ describe("Users Controller", () => {
 
     it("updates a portfolio", async () => { 
         portfolioService.update = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios[0]);
+            return Promise.resolve(testPortfolios[0]);
         });
 
         const req: any = {
@@ -217,12 +181,12 @@ describe("Users Controller", () => {
         }
 
         await portfolioController.updatePorfolio(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+        expect(res.send).toHaveBeenCalledWith({ _id: testPortfolios[0]._id });
     });
 
     it("updates a portfolio with partial changes", async () => { 
         portfolioService.update = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios[0]);
+            return Promise.resolve(testPortfolios[0]);
         });
 
         let req: any = {
@@ -237,7 +201,7 @@ describe("Users Controller", () => {
         }
 
         await portfolioController.updatePorfolio(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+        expect(res.send).toHaveBeenCalledWith({ _id: testPortfolios[0]._id });
         
         req = {
             params: {
@@ -257,12 +221,12 @@ describe("Users Controller", () => {
         }
 
         await portfolioController.updatePorfolio(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith({ _id: portfolios[0]._id });
+        expect(res.send).toHaveBeenCalledWith({ _id: testPortfolios[0]._id });
     });
 
     it("doesn't update a portfolio if new fund allocation doesn't add up to 100%", async () => { 
         portfolioService.update = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios[0]);
+            return Promise.resolve(testPortfolios[0]);
         });
 
         const req: any = {
@@ -295,16 +259,16 @@ describe("Users Controller", () => {
 
     it("deletes a portfolio by id", async () => { 
         portfolioService.delete = jest.fn().mockImplementation(() => {
-            return Promise.resolve(portfolios[0]);
+            return Promise.resolve(testPortfolios[0]);
         });
 
         const req: any = {
             params: {
-                id: portfolios[0]._id,
+                id: testPortfolios[0]._id,
             }
         }
 
         await portfolioController.deletePortfolio(req, res, nextFunction);
-        expect(res.send).toHaveBeenCalledWith(portfolios[0]);
+        expect(res.send).toHaveBeenCalledWith(testPortfolios[0]);
     });
 });

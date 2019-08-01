@@ -90,9 +90,8 @@ class PortfoliosController {
 
             return portafolioTotal === 100
         }
-        else {
-            return true;
-        }
+            
+        return true;
     }
 }
 

@@ -1,4 +1,3 @@
-const globalSetup = () => {
-}
+const globalSetup = () => {}
 
 module.exports = globalSetup;
