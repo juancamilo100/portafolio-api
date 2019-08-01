@@ -1,12 +1,12 @@
+import { Types } from "mongoose";
 import { IPortfolio, Portfolio } from "../../../models/portfolio";
 import { IUser, User } from "../../../models/user";
-import UserService from '../../../services/user.service'
-import { Types } from "mongoose";
+import UserService from "../../../services/user.service";
 
 const operations = {
-    INSERT: 'insert',
-    DELETE: 'delete'
-}
+    INSERT: "insert",
+    DELETE: "delete"
+};
 
 const targetOperations = Object.values(operations);
 
@@ -18,7 +18,7 @@ interface IPortfolioStreamData {
 
 const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
     let user: IUser | undefined | null;
-    let udpatedPortfolios: Array<IPortfolio["_id"]>
+    let udpatedPortfolios: Array<IPortfolio["_id"]>;
 
     switch (data.operationType) {
         case operations.INSERT:
@@ -26,22 +26,22 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 
             udpatedPortfolios = user!.portfolios.slice(0);
             udpatedPortfolios.push(data.documentKey._id.toString());
-            
+
             user!.portfolios = udpatedPortfolios;
-			break;
+		    break;
 
 		case operations.DELETE:
             const users = await UserService.getAll();
 
-            user = users.find((user: IUser) => {
-                return user.portfolios.includes(data.documentKey._id.toHexString());
+            user = users.find((foundUser: IUser) => {
+                return foundUser.portfolios.includes(data.documentKey._id.toHexString());
             });
 
             udpatedPortfolios = user!.portfolios.slice(0);
             const portfolioIndexToDelete = udpatedPortfolios.indexOf(data.documentKey._id.toHexString());
 
             udpatedPortfolios.splice(portfolioIndexToDelete, 1);
-			user!.portfolios = udpatedPortfolios;   
+			         user!.portfolios = udpatedPortfolios;
 			break;
 
 		default:

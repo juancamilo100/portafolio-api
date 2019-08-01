@@ -1,5 +1,5 @@
+import { DB_NAME, DB_URL } from "../config";
 import databaseManager from "./databaseManager";
-import { DB_URL, DB_NAME } from '../config'
 
 const databaseInit = () => {
 	const mongoDatabase = new databaseManager(

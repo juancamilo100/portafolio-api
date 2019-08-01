@@ -8,7 +8,7 @@ interface IFund {
 }
 
 interface IPortfolio extends Document {
-    _id: string
+    _id: string;
 	name: string;
 	funds: IFund[];
 	user: IUser["_id"];

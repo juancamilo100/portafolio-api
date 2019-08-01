@@ -1,6 +1,6 @@
-import IDataService from '../interfaces/dataService.interface';
-import { IUser, User } from '../models/user';
 import { Types } from "mongoose";
+import IDataService from "../interfaces/dataService.interface";
+import { IUser, User } from "../models/user";
 
 class UserService implements IDataService<IUser> {
     public get(id: string) {
@@ -10,8 +10,8 @@ class UserService implements IDataService<IUser> {
     public getByFields(fields: object) {
         return User.findOne(fields).lean().exec();
     }
-    
-    public getByEitherFields(fields: Array<object>) {
+
+    public getByEitherFields(fields: object[]) {
         return User.findOne({
             $or: fields
         }).lean().exec();
@@ -41,7 +41,7 @@ class UserService implements IDataService<IUser> {
         const { _id, ...updatedFields } = entity;
 
         return User.findOneAndUpdate(
-			{ _id: _id },
+			{ _id },
 			updatedFields,
 			{ new: true }
 		).exec();

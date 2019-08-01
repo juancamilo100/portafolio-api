@@ -9,7 +9,8 @@
         "serve": "NODE_ENV=development && nodemon ./bin/www",
         "start": "node ./build/bin/www",
         "test": "jest --coverage --runInBand",
-        "test:watch": "jest --coverage --runInBand --watch"
+        "test:watch": "jest --coverage --runInBand --watch",
+        "pretty": "tslint --fix -c tslint.json -p tsconfig.json"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",

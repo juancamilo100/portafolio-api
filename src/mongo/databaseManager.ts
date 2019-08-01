@@ -5,7 +5,7 @@ class DatabaseManager {
 
 	public async connect() {
         mongoose.set("useFindAndModify", false);
-        
+
         try {
             await mongoose.connect(this._connectionString, {
                 useNewUrlParser: true,
@@ -18,7 +18,7 @@ class DatabaseManager {
             console.log(`Error when trying to connect to ${this._databaseName} at ${this._connectionString}`);
         }
     }
-    
+
     public async disconnect() {
         await mongoose.disconnect();
     }

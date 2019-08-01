@@ -1,6 +1,6 @@
-import IDataService from '../interfaces/dataService.interface';
-import { IPortfolio, Portfolio } from '../models/portfolio';
 import { Types } from "mongoose";
+import IDataService from "../interfaces/dataService.interface";
+import { IPortfolio, Portfolio } from "../models/portfolio";
 
 class PortfolioService implements IDataService<IPortfolio> {
     public getAll() {
@@ -40,7 +40,7 @@ class PortfolioService implements IDataService<IPortfolio> {
         const { _id, ...updatedFields } = entity;
 
         return Portfolio.findOneAndUpdate(
-			{ _id: _id },
+			{ _id },
 			updatedFields
         ).lean().exec();
     }
