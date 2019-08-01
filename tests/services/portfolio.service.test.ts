@@ -3,30 +3,31 @@ import { IPortfolio } from '../../src/models/portfolio'
 import databaseManager from '../../src/mongo/databaseManager'
 import { populatePortfoliosInTestDb, cleanupDb } from '../utils/dbPopulation'
 import { testPortfolios } from '../utils/mockData'
-import { TEST_DB_URL, TEST_DB_NAME } from '../config'
 import { Types } from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe("Portfolio Service", () => {  
-    const mongoDatabase = new databaseManager(
-        TEST_DB_URL,
-        TEST_DB_NAME
-    );
-
+    const mongod = new MongoMemoryServer();
+    let mongoDatabase: databaseManager;
+        
     beforeAll(async (done) => {
+        const uri = await mongod.getConnectionString();
+        const dbName = await mongod.getDbName();
+
+        mongoDatabase = new databaseManager(
+            uri,
+            dbName
+        );
+
         await mongoDatabase.connect();
         await populatePortfoliosInTestDb(testPortfolios);
         done();
     });
 
-    beforeEach(() => {
-    });
-
-    afterEach(() => {
-    });
-
     afterAll(async (done) => {
         await cleanupDb();
         await mongoDatabase.disconnect();
+        await mongod.stop();
         done();
     });
 

@@ -1,17 +1,23 @@
 import userService from '../../src/services/user.service'
 import { IUser } from '../../src/models/user'
-import databaseManager from '../../src/mongo/databaseManager'
+import DatabaseManager from '../../src/mongo/databaseManager'
 import { populateUsersInTestDb, cleanupDb } from '../utils/dbPopulation'
 import { testUsers } from '../utils/mockData'
-import { TEST_DB_URL, TEST_DB_NAME } from '../config'
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe("Users Service", () => {  
-    const mongoDatabase = new databaseManager(
-        TEST_DB_URL,
-        TEST_DB_NAME
-    );
+    const mongod = new MongoMemoryServer();
+    let mongoDatabase: DatabaseManager;
 
     beforeAll(async (done) => {
+        const uri = await mongod.getConnectionString();
+        const dbName = await mongod.getDbName();
+
+        mongoDatabase = new DatabaseManager(
+            uri,
+            dbName
+        );
+
         await mongoDatabase.connect();
         await populateUsersInTestDb(testUsers);
         done();
@@ -20,6 +26,7 @@ describe("Users Service", () => {
     afterAll(async (done) => {
         await cleanupDb();
         await mongoDatabase.disconnect();
+        await mongod.stop();
         done();
     });
 
@@ -122,7 +129,7 @@ describe("Users Service", () => {
         expect(updatedUser.username).toEqual('newrandomusername');
         expect(updatedUser.email).toEqual('newrandomemail@email.com');
         expect(updatedUser.password).toEqual(testUsers[0].password);
-        
+
         done();
     });
     
