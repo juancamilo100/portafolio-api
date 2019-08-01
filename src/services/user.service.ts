@@ -27,7 +27,7 @@ class UserService implements IDataService<IUser> {
 
     public create(entity: IUser) {
         const newUser = new User({
-            _id: Types.ObjectId(),
+            _id: Types.ObjectId().toHexString(),
             username: entity.username,
             password: entity.password,
 			email: entity.email,

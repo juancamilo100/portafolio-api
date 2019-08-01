@@ -6,10 +6,7 @@ import apiRoutes from "./src/api";
 import errorHandler from "./src/middleware/errorHandler.middleware";
 import notFoundHandler from "./src/middleware/notFoundHandler.middleware";
 import swagger from 'swagger-ui-express'
-import data from './swagger.json';
-
-var swaggerUi = require('swagger-ui-express'),
-swaggerDocument = require('./swagger.json');
+// import swaggerDefinition from './swagger.json';
 
 const app = express();
 
@@ -19,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
 
-app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocument));
+// app.use('/api-docs', swagger.serve, swagger.setup(swaggerDefinition));
 app.use("/api", apiRoutes);
 
 app.use(notFoundHandler);
