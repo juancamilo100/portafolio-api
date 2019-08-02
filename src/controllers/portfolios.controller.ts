@@ -32,7 +32,7 @@ class PortfoliosController {
         }
 
         if (!this.portfolioIsComplete(req.body.funds)) {
-            next(createError(400));
+            next(createError(400, "Portfolio allocation must add up to 100%"));
             return;
         }
 

@@ -1,0 +1,307 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Portfolio API",
+      "description": "API for the Portfolio App",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Portfolios",
+        "description": "API for users' portfolios"
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/users": {
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "description": "Create new user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to create",
+              "schema": {
+                "$ref": "#/definitions/UserCreate"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/TokenResponse"
+              }
+            },
+            "409": {
+                "description": "User already exists"    
+            },
+            "400": {
+                "description": "Incomplete request"    
+            },
+            "500": {
+                "description": "Something went wrong"    
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get all users in system",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/UsersWithNoPassword"
+              }
+            },
+            "500": {
+                "description": "Something went wrong"    
+            }
+          }
+        }
+      },
+      "/users/{userId}": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get user with given ID",
+          "responses": {
+            "200": {
+              "description": "User is found",
+              "schema": {
+                "$ref": "#/definitions/UserWithNoPassword"
+              }
+            },
+            "500": {
+                "description": "Something went wrong"    
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete user with given ID",
+          "tags": [
+            "Users"
+          ],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/UserWithNoPassword"
+              }
+            }
+          }
+        }
+      },
+      "/portfolios": {
+        "post": {
+            "tags": [
+              "Portfolios"
+            ],
+            "description": "Create new portfolio in system",
+            "parameters": [
+              {
+                "name": "portfolio",
+                "in": "body",
+                "description": "Portfolio that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/PortfolioCreate"
+                }
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "New portfolio is created",
+                "schema": {
+                  "$ref": "#/definitions/Portfolio"
+                }
+              },
+              "400": {
+                  "description": "Incomplete request"    
+              },
+              "500": {
+                  "description": "Something went wrong"    
+              }
+            }
+          },
+          "get": {
+            "tags": [
+              "Portfolios"
+            ],
+            "summary": "Get all portfolios for the current user",
+            "responses": {
+              "200": {
+                "description": "OK",
+                "schema": {
+                  "$ref": "#/definitions/UsersWithNoPassword"
+                }
+              },
+              "500": {
+                  "description": "Something went wrong"    
+              }
+            }
+          }
+      },
+      "/portfolios/{portfolioId}": {
+        "parameters": [
+          {
+            "name": "portfolioId",
+            "in": "path",
+            "required": true,
+            "description": "ID of portfolio that we want to find",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Portfolios"
+          ],
+          "summary": "Get portfolio with given ID",
+          "responses": {
+            "200": {
+              "description": "User is found",
+              "schema": {
+                "$ref": "#/definitions/UserWithNoPassword"
+              }
+            },
+            "500": {
+                "description": "Something went wrong"    
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete user with given ID",
+          "tags": [
+            "Users"
+          ],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/UserWithNoPassword"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "UserCreate": {
+        "required": [
+          "email",
+          "_id"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserWithNoPassword": {
+        "required": [
+          "email",
+          "_id"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "UsersWithNoPassword": {
+        "type": "array",
+        "$ref": "#/definitions/UserWithNoPassword"
+      },
+      "TokenResponse": {
+        "properties": {
+          "auth": {
+            "type": "boolean"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "PortfolioCreate": {
+        "properties": {
+          "funds": {
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Portfolio": {
+        "properties": {
+          "_id": {
+            "type": "string"
+          },  
+          "funds": {
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "Portfolios": {
+        "type": "array",
+        "$ref": "#/definitions/Portfolio"
+      }
+    }
+  }
