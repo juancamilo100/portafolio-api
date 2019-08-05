@@ -18,7 +18,7 @@ const authenticateUser: RequestHandler = async (req: Request, res: Response, nex
 		req.userId = decodedToken.userId;
 		next();
 	} catch (error) {
-		return next(createError(500, "Failed to authenticate"));
+		return next(createError(401, "Unauthorized"));
 	}
 };
 

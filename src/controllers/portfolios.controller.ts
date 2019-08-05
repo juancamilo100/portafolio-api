@@ -32,14 +32,14 @@ class PortfoliosController {
         }
 
         if (!this.portfolioIsComplete(req.body.funds)) {
-            next(createError(400));
+            next(createError(400, "Portfolio allocation must add up to 100%"));
             return;
         }
 
         try {
             const newPortfolio = {
                 funds: req.body.funds,
-                name: req.body.name,
+                name: req.body.name || "",
                 user: req.userId
             } as IPortfolio;
 

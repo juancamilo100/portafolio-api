@@ -48,7 +48,7 @@ class AuthController {
             const newUser = {
                 username: req.body.username,
                 password: hashedPassword,
-                email: req.body.email
+                email: req.body.email || ""
             } as IUser;
 
             await this.userService.create(newUser);

@@ -26,7 +26,7 @@ class UsersController {
 
     // TODO: Add authorization to this endpoint.  Only admin user should be able to get any user by id
     public getUserById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-        if (req.userId !== req.params.id) { return next(createError(401, "Not authorized")); }
+        if (req.userId !== req.params.id) { return next(createError(401, "Unathorized")); }
 
         try {
             const user = await this.userService.get(req.params.id);

@@ -22,12 +22,12 @@ class UserService implements IDataService<IUser> {
     }
 
     public getAllByFields(fields: object) {
-       return  User.find(fields).exec();
+        return  User.find(fields).exec();
     }
 
     public create(entity: IUser) {
         const newUser = new User({
-            _id: Types.ObjectId(),
+            _id: Types.ObjectId().toHexString(),
             username: entity.username,
             password: entity.password,
 			email: entity.email,

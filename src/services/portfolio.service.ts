@@ -27,7 +27,7 @@ class PortfolioService implements IDataService<IPortfolio> {
 
     public create(entity: IPortfolio) {
         const newPortfolio = new Portfolio({
-            _id: Types.ObjectId(),
+            _id: Types.ObjectId().toHexString(),
 			funds: entity.funds,
 			name: entity.name,
 			user: entity.user
