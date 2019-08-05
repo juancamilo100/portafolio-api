@@ -39,7 +39,7 @@ class PortfoliosController {
         try {
             const newPortfolio = {
                 funds: req.body.funds,
-                name: req.body.name,
+                name: req.body.name || "",
                 user: req.userId
             } as IPortfolio;
 
