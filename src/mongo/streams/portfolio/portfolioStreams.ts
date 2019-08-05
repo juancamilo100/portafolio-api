@@ -1,7 +1,6 @@
 import { Types } from "mongoose";
 import { IPortfolio, Portfolio } from "../../../models/portfolio";
 import { IUser, User } from "../../../models/user";
-import UserService from "../../../services/user.service";
 
 const operations = {
     INSERT: "insert",
@@ -22,7 +21,6 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
 
     switch (data.operationType) {
         case operations.INSERT:
-            // user = await UserService.get(data.fullDocument.user);
             user = await User.findById(data.fullDocument.user);
 
             udpatedPortfolios = user!.portfolios.slice(0);
