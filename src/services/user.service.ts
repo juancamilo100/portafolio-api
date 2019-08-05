@@ -22,7 +22,7 @@ class UserService implements IDataService<IUser> {
     }
 
     public getAllByFields(fields: object) {
-       return  User.find(fields).exec();
+        return  User.find(fields).exec();
     }
 
     public create(entity: IUser) {
