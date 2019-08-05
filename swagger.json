@@ -382,15 +382,20 @@
         },
         "PortfolioUpdateRequest": {
 			"properties": {
-				"funds": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Fund"
+                "updatedFields": {
+                    "type": "object",
+                    "properties": {
+                        "funds": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Fund"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        }
                     }
-				},
-				"name": {
-					"type": "string"
-				}
+                }
 			}
         },
         "PortfolioUpdateResponse": {
