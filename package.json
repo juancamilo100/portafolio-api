@@ -1,6 +1,6 @@
 {
     "name": "portafolio",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "private": true,
     "scripts": {
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
