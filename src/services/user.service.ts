@@ -34,7 +34,7 @@ class UserService implements IDataService<IUser> {
             portfolios: []
 		});
 
-		return newUser.save();
+	    return newUser.save();
     }
 
     public update(entity: IUser) {
