@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config";
+import { SECRET_KEY } from "../../config";
 
 interface IDecodedToken {
 	userId: string;

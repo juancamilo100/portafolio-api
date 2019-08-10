@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-import debug from "debug";
+import { debug } from "debug";
 import http from "http";
 import app from "../app";
 import { databaseInit } from "../src/mongo/initDb";

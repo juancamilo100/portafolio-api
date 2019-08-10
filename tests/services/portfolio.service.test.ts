@@ -39,7 +39,7 @@ describe("Portfolio Service", () => {
 
     it("gets a portfolio by one AND more fields", async (done) => {
         let portfolio = await portfolioService.getByFields({
-            username: testPortfolios[0].name,
+            name: testPortfolios[0].name,
             funds: []
         });
 
@@ -122,11 +122,11 @@ describe("Portfolio Service", () => {
         done();
     });
 
-    it("updates a user", async (done) => { 
+    it("updates a portfolio", async (done) => { 
         const newUser = Types.ObjectId();
         const portfolioToUpdate = {
             _id: testPortfolios[0]._id,
-            name: 'newrandomusername',
+            name: 'newrandomname',
             user: newUser
         } as unknown as IPortfolio
 

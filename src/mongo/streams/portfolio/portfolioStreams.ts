@@ -40,7 +40,7 @@ const syncPortafolioToUser = async (data: IPortfolioStreamData) => {
             const portfolioIndexToDelete = udpatedPortfolios.indexOf(data.documentKey._id.toHexString());
 
             udpatedPortfolios.splice(portfolioIndexToDelete, 1);
-			         user!.portfolios = udpatedPortfolios;
+			user!.portfolios = udpatedPortfolios;
 			break;
 
 		default:

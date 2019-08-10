@@ -1,4 +1,4 @@
-import { DB_NAME, DB_URL } from "../config";
+import { DB_NAME, DB_URL } from "../../config";
 import databaseManager from "./databaseManager";
 
 const databaseInit = () => {
