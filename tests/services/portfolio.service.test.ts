@@ -122,7 +122,7 @@ describe("Portfolio Service", () => {
         done();
     });
 
-    it("updates a user", async (done) => { 
+    it("updates a portfolio", async (done) => { 
         const newUser = Types.ObjectId();
         const portfolioToUpdate = {
             _id: testPortfolios[0]._id,
