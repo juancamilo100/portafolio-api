@@ -10,6 +10,6 @@ router.post("/", portfoliosController.createPortfolio);
 router.patch("/:id", authorizeUser, portfoliosController.updatePorfolio);
 router.delete("/:id", authorizeUser, portfoliosController.deletePortfolio);
 
-router.get("/:id/funds/:fund", authorizeUser, fundsController.getFundDetails);
+router.get("/:id/analysis/:targetInvestment", authorizeUser, fundsController.getFundDetails);
 
 export default router;
