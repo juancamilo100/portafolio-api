@@ -12,7 +12,7 @@ export interface AnalysisData {
     targetInvestment: number
 }
 
-export class PortfolioAnalysisService {
+export default class PortfolioAnalysisService {
     getFundsAnalysis(analysisData: AnalysisData) {
         let totalMoneyInvested: number = 0;
         let moneyLeftover: number = 0;
@@ -74,5 +74,5 @@ export class PortfolioAnalysisService {
         const shares = (amountFromInvestment / fundPrice);
         
         return Math.floor(shares);
-}
+    }
 }

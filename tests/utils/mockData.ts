@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
+import { IFund } from '../../src/models/portfolio';
 
-const testUsers = [
+export const testUsers = [
     {
         _id: Types.ObjectId(),
         username: 'testuser1',
@@ -24,12 +25,12 @@ const testUsers = [
     }
 ]
 
-const testUsersWithoutPassword = JSON.parse(JSON.stringify(testUsers))
+export const testUsersWithoutPassword = JSON.parse(JSON.stringify(testUsers))
 testUsersWithoutPassword.forEach((user: any) => {
     delete user.password;
 });
 
-const testPortfolios = [
+export const testPortfolios = [
     {
         _id: Types.ObjectId(),
         name: "Portfolio1",
@@ -66,8 +67,27 @@ const testPortfolios = [
     }
 ];
 
-export { 
-    testUsers, 
-    testPortfolios,
-    testUsersWithoutPassword
- }
+export const testFunds: IFund[] = [
+    {
+        symbol: 'VTI',
+        portfolioPercentage: '50'
+    },
+    {
+        symbol: 'VXUS',
+        portfolioPercentage: '50'
+    },
+    {
+        symbol: 'BND',
+        portfolioPercentage: '50'
+    }        
+];
+
+export const analysisMockData = {
+    funds: testFunds, 
+    latestPrices: [
+        147.34,
+        49.82,
+        84.83
+    ], 
+    targetInvestment: 2000
+}
