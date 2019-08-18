@@ -11,7 +11,7 @@ const schema = new Schema({
 	funds: {
 		type: [
 			{
-				ticker: String,
+				symbol: String,
 				portfolioPercentage: String
 			}
 		]

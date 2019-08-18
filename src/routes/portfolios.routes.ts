@@ -1,5 +1,5 @@
 import express from "express";
-import { portfoliosController, fundsController } from "../controllers";
+import { portfoliosController, analysisController } from "../controllers";
 import { authorizeUser } from "../middleware/portfolioAuth.middleware";
 
 const router = express.Router();
@@ -10,6 +10,6 @@ router.post("/", portfoliosController.createPortfolio);
 router.patch("/:id", authorizeUser, portfoliosController.updatePorfolio);
 router.delete("/:id", authorizeUser, portfoliosController.deletePortfolio);
 
-router.get("/:id/analysis/:targetInvestment", authorizeUser, fundsController.getFundDetails);
+router.get("/:id/analysis/:targetInvestment", authorizeUser, analysisController.getPortfolioAnalysis);
 
 export default router;

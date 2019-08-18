@@ -36,12 +36,12 @@ const testPortfolios = [
         funds: [
             {
                 _id: Types.ObjectId(),
-                ticker: "VTI",
+                symbol: "VTI",
                 portfolioPercentage: "80"
             },
             {
                 _id: Types.ObjectId(),
-                ticker: "VXUS",
+                symbol: "VXUS",
                 portfolioPercentage: "20"
             }
         ],
@@ -53,12 +53,12 @@ const testPortfolios = [
         funds: [
             {
                 _id: Types.ObjectId(),
-                ticker: "SCHD",
+                symbol: "SCHD",
                 portfolioPercentage: "70"
             },
             {
                 _id: Types.ObjectId(),
-                ticker: "SCHX",
+                symbol: "SCHX",
                 portfolioPercentage: "30"
             }
         ],

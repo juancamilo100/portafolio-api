@@ -307,7 +307,7 @@ definitions:
   Fund:
     type: object
     properties:
-      ticker:
+      symbol:
         type: string
       portfolioPercentage:
         type: string

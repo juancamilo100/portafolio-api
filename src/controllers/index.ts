@@ -13,11 +13,11 @@ const fundsService = new FundDetailsService(STOCKS_API_BASE_URL, STOCKS_API_TOKE
 const authController = new AuthController(userService);
 const usersController = new UsersController(userService);
 const portfoliosController = new PortfoliosController(portfolioService);
-const fundsController = new AnalysisController(fundsService, portfolioService);
+const analysisController = new AnalysisController(fundsService, portfolioService);
 
 export {
     authController,
     usersController,
     portfoliosController,
-    fundsController
+    analysisController
 };

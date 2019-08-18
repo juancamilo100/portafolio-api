@@ -26,14 +26,15 @@ export default class AnalysisController {
         private fundDetailService: FundDetailsService, 
         private portfolioService: IDataService<IPortfolio>) {}
 
-    public getFundDetails: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+    public getPortfolioAnalysis: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const portfolio: IPortfolio | null = await this.portfolioService.get(req.params.id);
-            const promises = portfolio!.funds.map(async (fund) => {
-                return await this.fundDetailService.getDetails(fund.ticker);
-            });
+            // const promises = portfolio!.funds.map(async (fund) => {
+            //     return await this.fundDetailService.getFundDetails(fund);
+            // });
 
-            const fundsDetails = await Promise.all(promises);
+            const fundsDetails = await this.fundDetailService.getFundsDetails(portfolio!.funds);
+
             const prices = fundsDetails.map((detail) => {
                 return parseFloat(detail.latestPrice);
             })
@@ -71,7 +72,7 @@ export default class AnalysisController {
         let moneyLeftover: number = 0;
 
         const analysis = analysisData.funds.map((currentFund, index) => {
-            const fund = currentFund.ticker;
+            const fund = currentFund.symbol;
             const price = analysisData.latestPrices[index];
             const sharesToBuy = 
                 this.getSharesToBuy(analysisData.targetInvestment, parseInt(currentFund.portfolioPercentage), price);
@@ -89,6 +90,7 @@ export default class AnalysisController {
 
         totalMoneyInvested = parseFloat(totalMoneyInvested.toFixed(2));
         moneyLeftover = analysisData.targetInvestment - totalMoneyInvested;
+        moneyLeftover = parseFloat(moneyLeftover.toFixed(2));
 
         return {
             analysis,

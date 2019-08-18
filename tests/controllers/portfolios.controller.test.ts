@@ -52,12 +52,12 @@ describe("Users Controller", () => {
             funds: [
                 {
                     _id: "5d2fc59aae6b9816488dcf30",
-                    ticker: "VTI",
+                    symbol: "VTI",
                     portfolioPercentage: "90"
                 },
                 {
                     _id: "5d2fc59aae6b9816488dcf31",
-                    ticker: "VXUS",
+                    symbol: "VXUS",
                     portfolioPercentage: "10"
                 }
             ],
@@ -136,12 +136,12 @@ describe("Users Controller", () => {
             funds: [
                 {
                     _id: "5d2fc59aae6b9816488dcf30",
-                    ticker: "VTI",
+                    symbol: "VTI",
                     portfolioPercentage: "80"
                 },
                 {
                     _id: "5d2fc59aae6b9816488dcf31",
-                    ticker: "VXUS",
+                    symbol: "VXUS",
                     portfolioPercentage: "10"
                 }
             ],
@@ -172,7 +172,7 @@ describe("Users Controller", () => {
                     funds: [
                         {
                             _id: "5d2fc59aae6b9816488dcf30",
-                            ticker: "VTI",
+                            symbol: "VTI",
                             portfolioPercentage: "100"
                         }
                     ]
@@ -212,7 +212,7 @@ describe("Users Controller", () => {
                     funds: [
                         {
                             _id: "5d2fc59aae6b9816488dcf30",
-                            ticker: "VXUS",
+                            symbol: "VXUS",
                             portfolioPercentage: "100"
                         }
                     ]
@@ -239,12 +239,12 @@ describe("Users Controller", () => {
                     funds: [
                         {
                             _id: "5d2fc59aae6b9816488dcf30",
-                            ticker: "VTI",
+                            symbol: "VTI",
                             portfolioPercentage: "80"
                         },
                         {
                             _id: "5d2fc59aae6b9816488dcf30",
-                            ticker: "VXUS",
+                            symbol: "VXUS",
                             portfolioPercentage: "10"
                         }
                     ]

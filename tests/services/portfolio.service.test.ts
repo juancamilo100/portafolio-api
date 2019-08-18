@@ -94,12 +94,12 @@ describe("Portfolio Service", () => {
             funds: [
                 {
                     _id: Types.ObjectId(),
-                    ticker: "VTI",
+                    symbol: "VTI",
                     portfolioPercentage: "80"
                 },
                 {
                     _id: Types.ObjectId(),
-                    ticker: "VXUS",
+                    symbol: "VXUS",
                     portfolioPercentage: "20"
                 }
             ],
