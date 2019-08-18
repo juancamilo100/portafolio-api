@@ -1,9 +1,16 @@
 import { IFund } from "../models/portfolio";
 
-export interface FundAnalysisResult {
+interface FundAllocation {
     fund: string,
+    price: number,
     sharesToBuy: number,
     moneyInvested: number
+}
+
+export interface FundAnalysis {
+    allocation: FundAllocation[]
+    totalMoneyInvested: number,
+    moneyLeftover: number
 }
 
 export interface AnalysisData {
@@ -12,12 +19,12 @@ export interface AnalysisData {
     targetInvestment: number
 }
 
-export default class PortfolioAnalysisService {
+export class PortfolioAnalysisService {
     getFundsAnalysis(analysisData: AnalysisData) {
         let totalMoneyInvested: number = 0;
         let moneyLeftover: number = 0;
 
-        const analysis = analysisData.funds.map((currentFund, index) => {
+        const allocation: FundAllocation[] = analysisData.funds.map((currentFund, index) => {
             const fund = currentFund.symbol;
             const price = analysisData.latestPrices[index];
             const sharesToBuy = 
@@ -25,24 +32,28 @@ export default class PortfolioAnalysisService {
             
             const moneyInvested = parseFloat((sharesToBuy * price).toFixed(2));
             totalMoneyInvested += moneyInvested;
-            
-            return {
+
+            const result: FundAllocation = {
                 fund,
                 price,
                 sharesToBuy,
                 moneyInvested
             }
+            
+            return result
         });
 
         totalMoneyInvested = parseFloat(totalMoneyInvested.toFixed(2));
         moneyLeftover = analysisData.targetInvestment - totalMoneyInvested;
         moneyLeftover = parseFloat(moneyLeftover.toFixed(2));
 
-        return {
-            analysis,
+        const fundAnalysisResult: FundAnalysis = {
+            allocation,
             totalMoneyInvested,
             moneyLeftover
         }
+
+        return fundAnalysisResult;
     }
 
     getRecommendedInvestmentAmount(analysisData: AnalysisData, tolerance: number = 500) {

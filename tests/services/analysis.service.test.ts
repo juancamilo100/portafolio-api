@@ -1,4 +1,4 @@
-import PortfolioAnalysisService from '../../src/services/analysis.service'
+import { PortfolioAnalysisService } from '../../src/services/analysis.service'
 import { analysisMockData } from '../utils/mockData';
 
 describe("Fund Service", () => {  

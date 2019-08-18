@@ -3,12 +3,10 @@ import createError from "http-errors";
 import IDataService from "../interfaces/dataService.interface";
 import FundDetailsService from '../services/fund.service'
 import { IPortfolio } from "../models/portfolio";
-import { FundAnalysisResult, AnalysisData, PortfolioAnalysisService } from "../services/analysis.service";
+import { FundAnalysis, AnalysisData, PortfolioAnalysisService } from "../services/analysis.service";
 
 interface PortfolioAnalysisResult {
-    fundsAllocation: FundAnalysisResult[];
-    totalMoneyInvested: number;
-    moneyLeftover: number;
+    analysis: FundAnalysis
     recommendedInvestmentAmount: number;
 }
 
@@ -33,14 +31,12 @@ export default class AnalysisController {
                 targetInvestment: parseInt(req.params.targetInvestment)
             }
             
-            const fundsAnalysis = this.analysisService.getFundsAnalysis(analysisData);
+            const analysis = this.analysisService.getFundsAnalysis(analysisData);
             const recommendedInvestmentAmount = this.analysisService.getRecommendedInvestmentAmount(analysisData);
 
             const analysisResult: PortfolioAnalysisResult = {
-                fundsAllocation: fundsAnalysis.analysis,
-                totalMoneyInvested: fundsAnalysis.totalMoneyInvested,
-                moneyLeftover: fundsAnalysis.moneyLeftover,
-                recommendedInvestmentAmount: recommendedInvestmentAmount
+                analysis,
+                recommendedInvestmentAmount
             }
             
             res.send(analysisResult);
