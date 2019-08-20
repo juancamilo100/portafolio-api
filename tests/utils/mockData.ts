@@ -91,3 +91,35 @@ export const analysisMockData = {
     ], 
     targetInvestment: 2000
 }
+
+export const fundDetailsMockData = {
+    fund: "VTI",
+    price: 147.34,
+    sharesToBuy: 10,
+    moneyInvested: 1473.4
+}
+
+export const fundAnalysisMockData = {
+    allocation: [
+        {
+            fund: "VTI",
+            price: 147.34,
+            sharesToBuy: 10,
+            moneyInvested: 1473.4
+        },
+        {
+            fund: "VXUS",
+            price: 49.82,
+            sharesToBuy: 6,
+            moneyInvested: 298.92
+        },
+        {
+            fund: "BND",
+            price: 84.83,
+            sharesToBuy: 1,
+            moneyInvested: 84.83
+        }
+    ],
+    totalMoneyInvested: 1857.15,
+    moneyLeftover: 142.85
+}
