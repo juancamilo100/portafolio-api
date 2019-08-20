@@ -17,6 +17,10 @@ export default class AnalysisController {
         private analysisService: PortfolioAnalysisService) {}
 
     public getPortfolioAnalysis: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+        if (req.params.targetInvestment < 0) {
+            return next(createError(400, "Target investment can't be less than zero"));
+        }
+        
         try {
             const portfolio: IPortfolio | null = await this.portfolioService.get(req.params.id);
             const fundsDetails = await this.fundDetailService.getFundsDetails(portfolio!.funds);

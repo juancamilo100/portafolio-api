@@ -13,7 +13,7 @@ describe("Fund Service", () => {
         const analysisResults = portfolioAnalysisService.getFundsAnalysis(analysisMockData);
 
         let totalMoneyInvested: number = 0;
-        analysisResults.analysis.forEach((analysis) => {
+        analysisResults.allocation.forEach((analysis) => {
             totalMoneyInvested += analysis.moneyInvested;
         })
 

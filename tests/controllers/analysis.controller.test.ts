@@ -17,8 +17,26 @@ describe("Auth Controller", () => {
         analysisController = new AnalysisController(fundDetailsService, portfolioService, analysisService);
     });
 
-    it("Throws error when user is not found", async () => {
+    it("throws error if target investment is less than zero", async () => {
+        const req: any = {
+            params: {
+                targetInvestment: -10
+            }
+        }
 
+        const res: any = {
+            send: jest.fn()
+        };
+
+        const nextFunction = jest.fn();
+
+        await analysisController.getPortfolioAnalysis(req, res, nextFunction);
+        expect(nextFunction).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledTimes(0);
+    });
+
+    it("throws error if target investment is less than zero", async () => { 
+    
     });
 
 });

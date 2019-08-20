@@ -20,7 +20,7 @@ export interface AnalysisData {
 }
 
 export class PortfolioAnalysisService {
-    getFundsAnalysis(analysisData: AnalysisData) {
+    getFundsAnalysis(analysisData: AnalysisData): FundAnalysis {
         let totalMoneyInvested: number = 0;
         let moneyLeftover: number = 0;
 
