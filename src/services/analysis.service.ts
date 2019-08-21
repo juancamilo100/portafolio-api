@@ -27,8 +27,14 @@ export class PortfolioAnalysisService {
         const allocation: FundAllocation[] = analysisData.funds.map((currentFund, index) => {
             const fund = currentFund.symbol;
             const price = analysisData.latestPrices[index];
-            const sharesToBuy = 
-                this.getSharesToBuy(analysisData.targetInvestment, parseInt(currentFund.portfolioPercentage), price);
+
+            let sharesToBuy: number = 0;
+            try {
+                sharesToBuy = 
+                    this.getSharesToBuy(analysisData.targetInvestment, parseInt(currentFund.portfolioPercentage), price);
+            } catch (error) {
+                throw new Error(error);
+            }
             
             const moneyInvested = parseFloat((sharesToBuy * price).toFixed(2));
             totalMoneyInvested += moneyInvested;
@@ -80,7 +86,9 @@ export class PortfolioAnalysisService {
         return investmentVariances[0].investmentAmount;
     }
 
-    private getSharesToBuy(targetInvestment: number, portfolioPercentage: number, fundPrice: number) {
+    private getSharesToBuy(targetInvestment: number, portfolioPercentage: number, fundPrice: number): number {
+        if(fundPrice === 0) throw new Error("Division by zero");
+
         const amountFromInvestment = (targetInvestment * portfolioPercentage) / 100;
         const shares = (amountFromInvestment / fundPrice);
         
