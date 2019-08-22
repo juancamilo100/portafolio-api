@@ -1,2 +1,2 @@
 # portafolio
-Web app to help with ETF portfolio management
+RESTful API to help with ETF portfolio management
