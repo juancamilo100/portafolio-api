@@ -1,13 +1,15 @@
 import express from "express";
-import { portfoliosController as controller } from "../controllers";
+import { portfoliosController, analysisController } from "../controllers";
 import { authorizeUser } from "../middleware/portfolioAuth.middleware";
 
 const router = express.Router();
 
-router.get("/", controller.getPortfolios);
-router.get("/:id", authorizeUser, controller.getPortfolioById);
-router.post("/", controller.createPortfolio);
-router.patch("/:id", authorizeUser, controller.updatePorfolio);
-router.delete("/:id", authorizeUser, controller.deletePortfolio);
+router.get("/", portfoliosController.getPortfolios);
+router.get("/:id", authorizeUser, portfoliosController.getPortfolioById);
+router.post("/", portfoliosController.createPortfolio);
+router.patch("/:id", authorizeUser, portfoliosController.updatePorfolio);
+router.delete("/:id", authorizeUser, portfoliosController.deletePortfolio);
+
+router.get("/:id/analysis/:targetInvestment", authorizeUser, analysisController.getPortfolioAnalysis);
 
 export default router;

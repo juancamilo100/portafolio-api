@@ -94,12 +94,12 @@ describe("Portfolio Service", () => {
             funds: [
                 {
                     _id: Types.ObjectId(),
-                    ticker: "VTI",
+                    symbol: "VTI",
                     portfolioPercentage: "80"
                 },
                 {
                     _id: Types.ObjectId(),
-                    ticker: "VXUS",
+                    symbol: "VXUS",
                     portfolioPercentage: "20"
                 }
             ],
@@ -136,7 +136,7 @@ describe("Portfolio Service", () => {
         expect(updatedPortfolio.name).not.toEqual(testPortfolios[0].name);
         expect(updatedPortfolio.user).not.toEqual(testPortfolios[0].user);
 
-        expect(updatedPortfolio.name).toEqual('newrandomusername');
+        expect(updatedPortfolio.name).toEqual('newrandomname');
         expect(updatedPortfolio.user).toEqual(newUser);
         expect(updatedPortfolio.funds).toEqual(testPortfolios[0].funds);
         done();

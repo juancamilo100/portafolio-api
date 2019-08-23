@@ -3,7 +3,7 @@ import { IUser } from "../user";
 import { schema } from "./schema";
 
 interface IFund {
-	ticker: string;
+	symbol: string;
 	portfolioPercentage: string;
 }
 

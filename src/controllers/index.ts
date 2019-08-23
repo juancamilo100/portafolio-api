@@ -1,16 +1,25 @@
 import AuthController from "./auth.controller";
 import PortfoliosController from "./portfolios.controller";
 import UsersController from "./users.controller";
+import AnalysisController from './analysis.controller'
+import { STOCKS_API_BASE_URL, STOCKS_API_TOKEN } from "../../config";
 
-import PortfolioService from "../services/portfolio.service";
-import UserService from "../services/user.service";
+import portfolioService from "../services/portfolio.service";
+import userService from "../services/user.service";
+import FundDetailsService from '../services/fund.service';
+import { PortfolioAnalysisService } from "../services/analysis.service";
 
-const authController = new AuthController(UserService);
-const usersController = new UsersController(UserService);
-const portfoliosController = new PortfoliosController(PortfolioService);
+const analysisService = new PortfolioAnalysisService();
+const fundsService = new FundDetailsService(STOCKS_API_BASE_URL, STOCKS_API_TOKEN);
+
+const authController = new AuthController(userService);
+const usersController = new UsersController(userService);
+const portfoliosController = new PortfoliosController(portfolioService);
+const analysisController = new AnalysisController(fundsService, portfolioService, analysisService);
 
 export {
     authController,
     usersController,
-    portfoliosController
+    portfoliosController,
+    analysisController
 };

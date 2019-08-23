@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
+import { IFund } from '../../src/models/portfolio';
 
-const testUsers = [
+export const testUsers = [
     {
         _id: Types.ObjectId(),
         username: 'testuser1',
@@ -24,24 +25,24 @@ const testUsers = [
     }
 ]
 
-const testUsersWithoutPassword = JSON.parse(JSON.stringify(testUsers))
+export const testUsersWithoutPassword = JSON.parse(JSON.stringify(testUsers))
 testUsersWithoutPassword.forEach((user: any) => {
     delete user.password;
 });
 
-const testPortfolios = [
+export const testPortfolios = [
     {
         _id: Types.ObjectId(),
         name: "Portfolio1",
         funds: [
             {
                 _id: Types.ObjectId(),
-                ticker: "VTI",
+                symbol: "VTI",
                 portfolioPercentage: "80"
             },
             {
                 _id: Types.ObjectId(),
-                ticker: "VXUS",
+                symbol: "VXUS",
                 portfolioPercentage: "20"
             }
         ],
@@ -53,12 +54,12 @@ const testPortfolios = [
         funds: [
             {
                 _id: Types.ObjectId(),
-                ticker: "SCHD",
+                symbol: "SCHD",
                 portfolioPercentage: "70"
             },
             {
                 _id: Types.ObjectId(),
-                ticker: "SCHX",
+                symbol: "SCHX",
                 portfolioPercentage: "30"
             }
         ],
@@ -66,8 +67,59 @@ const testPortfolios = [
     }
 ];
 
-export { 
-    testUsers, 
-    testPortfolios,
-    testUsersWithoutPassword
- }
+export const testFunds: IFund[] = [
+    {
+        symbol: 'VTI',
+        portfolioPercentage: '50'
+    },
+    {
+        symbol: 'VXUS',
+        portfolioPercentage: '50'
+    },
+    {
+        symbol: 'BND',
+        portfolioPercentage: '50'
+    }        
+];
+
+export const analysisMockData = {
+    funds: testFunds, 
+    latestPrices: [
+        147.34,
+        49.82,
+        84.83
+    ], 
+    targetInvestment: 2000
+}
+
+export const fundDetailsMockData = {
+    fund: "VTI",
+    price: 147.34,
+    sharesToBuy: 10,
+    moneyInvested: 1473.4
+}
+
+export const fundAnalysisMockData = {
+    allocation: [
+        {
+            fund: "VTI",
+            price: 147.34,
+            sharesToBuy: 10,
+            moneyInvested: 1473.4
+        },
+        {
+            fund: "VXUS",
+            price: 49.82,
+            sharesToBuy: 6,
+            moneyInvested: 298.92
+        },
+        {
+            fund: "BND",
+            price: 84.83,
+            sharesToBuy: 1,
+            moneyInvested: 84.83
+        }
+    ],
+    totalMoneyInvested: 1857.15,
+    moneyLeftover: 142.85
+}
