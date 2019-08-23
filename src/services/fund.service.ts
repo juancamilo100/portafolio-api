@@ -14,6 +14,7 @@ export default class FundDetailsService {
     async getFundDetails(fund: IFund) {
         const url = `${this.stocksApiBaseUrl}/stock/${fund.symbol}/quote?token=${this.stocksApiToken}`;
         const response: AxiosResponse<FundDetails> = await https.get(url);    
+        
         return {
             symbol: response.data.symbol,
             latestPrice: response.data.latestPrice,

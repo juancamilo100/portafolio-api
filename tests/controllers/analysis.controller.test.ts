@@ -16,15 +16,10 @@ describe("Auth Controller", () => {
     beforeAll(() => {
         fundDetailsService = new FundDetailsService(STOCKS_API_BASE_URL, STOCKS_API_TOKEN);
         analysisService = new PortfolioAnalysisService();
+
         analysisService.getFundsAnalysis = jest.fn().mockImplementation(() => {})
-
-        fundDetailsService.getFundDetails = jest.fn().mockImplementation(() => {
-            return Promise.resolve(fundDetailsMockData);
-        });
-
-        portfolioService.get = jest.fn().mockImplementation(() => {
-            return Promise.resolve(testPortfolios[0]);
-        });
+        fundDetailsService.getFundDetails = jest.fn().mockImplementation(() => Promise.resolve(fundDetailsMockData));
+        portfolioService.get = jest.fn().mockImplementation(() => Promise.resolve(testPortfolios[0]));
 
         analysisController = new AnalysisController(fundDetailsService, portfolioService, analysisService);
         
@@ -55,13 +50,8 @@ describe("Auth Controller", () => {
             },
         }
 
-        analysisService.getFundsAnalysis = jest.fn().mockImplementation(() => {
-            return fundAnalysisMockData;
-        });
-
-        analysisService.getRecommendedInvestmentAmount = jest.fn().mockImplementation(() => {
-            return recommendedInvestmentAmountMockData;
-        });
+        analysisService.getFundsAnalysis = jest.fn().mockImplementation(() => fundAnalysisMockData);
+        analysisService.getRecommendedInvestmentAmount = jest.fn().mockImplementation(() => recommendedInvestmentAmountMockData);
 
         await analysisController.getPortfolioAnalysis(req, res, nextFunction);
 
