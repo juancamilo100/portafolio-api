@@ -4,7 +4,6 @@ import { PortfolioAnalysisService } from '../../src/services/analysis.service';
 import AnalysisController from '../../src/controllers/analysis.controller';
 import { STOCKS_API_TOKEN, STOCKS_API_BASE_URL } from '../../config'
 import { fundAnalysisMockData, fundDetailsMockData, testPortfolios } from '../utils/mockData';
-import { NextFunction, Response } from "express";
 
 describe("Auth Controller", () => {  
     let analysisController: AnalysisController;
